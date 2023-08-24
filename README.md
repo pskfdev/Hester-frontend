@@ -1,8 +1,40 @@
-# React + Vite
+﻿# organick-food
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+เป็นโปรเจคที่จัดทำขึ้นเพื่อเป็นผลงานในการฝึกเขียนเว็บไซต์ในส่วนหน้า โดยใช้ `React framework`
 
-Currently, two official plugins are available:
+และมีฟังก์ชั่นดังนี้
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+สำหรับผู้ใช้ทั่วไป
+* สมัครสมาชิกได้
+* ดูรายละเอียดสินค้า
+* เพิ่มสินค้าลงในตะกร้า
+* ตรวจสอบรายการสินค้าในตะกร้า และผลรวมราคาสินค้า
+* ลบรายการสินค้าในตะกร้า
+
+สำหรับสมาชิก
+* สามารถเข้าสู่ระบบได้
+* ดูรายละเอียดสินค้า
+* เพิ่มสินค้าลงในตะกร้า
+* ตรวจสอบรายการสินค้าในตะกร้า และผลรวมราคาสินค้า
+* ลบรายการสินค้าในตะกร้า
+* กดปุ่มสั่งซื้อสินค้าได้ (กำลังอยู่ในช่วงพัฒนาเพิ่มเติม)
+
+สำหรับผู้ดูแลระบบ
+* เปลี่ยนสิทธิ(role) user ได้
+* จัดการ เพิ่ม/ลบ/แก้ไข สินค้าได้
+* จัดการ เพิ่ม/ลบ/แก้ไข หมวดหมู่สินค้าได้ได้
+* จัดการ เพิ่ม/ลบ/แก้ไข ฺBlog ได้
+
+## language & library
+
+* react
+* css
+  * tailwind
+  * daisy UI
+* axios
+* Json
+
+
+## website & design
+
+> [Website Hester](https://hester.vercel.app/)
