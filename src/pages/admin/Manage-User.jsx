@@ -14,11 +14,26 @@ function ManageUser() {
       role: e,
     };
 
-    axios
+    /* axios
       .post(`${import.meta.env.VITE_APP_API}/users/change-role.php/?id=${id}`, values)
       .then((res) => {
         console.log(res);
         alert(`Change role ${res.data.response.role} success!`);
+        fetchData();
+      })
+      .catch((err) => {
+        console.log(err);
+      }); */
+
+    fetch(`${import.meta.env.VITE_APP_API}/users/change-role.php/?id=${id}`, {
+      method: "POST",
+      body: JSON.stringify(values),
+    })
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (res) {
+        alert(`Change role ${res.response.role} success!`);
         fetchData();
       })
       .catch((err) => {
@@ -28,11 +43,16 @@ function ManageUser() {
 
   const handleRemove = (id) => {
     if (window.confirm("Are you sure delete!")) {
-      axios
-        .delete(`${import.meta.env.VITE_APP_API}/users/delete.php/?id=${id}`)
-        .then((res) => {
-          console.log(res.data);
-          alert("Remove user " + res.data.response.username + " Success!!!");
+
+      fetch(`${import.meta.env.VITE_APP_API}/users/delete.php/?id=${id}`, {
+        method: "POST",
+        body: JSON.stringify({id:id})
+      })
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (res) {
+          alert("Remove user " + res.response.username + " Success!!!");
           fetchData();
         })
         .catch((err) => {
@@ -52,6 +72,7 @@ function ManageUser() {
         setLoading(false);
       })
       .catch((err) => {
+        setLoading(false);
         console.log(err);
       });
   };
@@ -67,7 +88,9 @@ function ManageUser() {
   return (
     <div className="w-full container mx-auto py-20">
       <h3 className="text-4xl text-center font-bold">Manage user</h3>
-      {loading && <span className="loading loading-ring text-error opacity-40 w-1/4 fixed inset-x-1/3 z-10"></span>}
+      {loading && (
+        <span className="loading loading-ring text-error opacity-40 w-1/4 fixed inset-x-1/3 z-10"></span>
+      )}
       <div className="flex space-x-3 my-20">
         <button onClick={refreshPage} className="btn btn-warning">
           <MdAutorenew size={28} />

@@ -9,17 +9,20 @@ function ManageProduct() {
 
   const handleRemove = (id) => {
     if (window.confirm("Are you sure delete!")) {
-      axios
-        .delete(
-          `${import.meta.env.VITE_APP_API}/products/delete.php/?id=${id}`
-        )
-        .then((res) => {
-          alert("Remove Product " + res.data.response.title + " Success!!!");
+
+      fetch(`${import.meta.env.VITE_APP_API}/products/delete.php/?id=${id}`, {
+        method: "POST",
+        body: JSON.stringify({ id: id }),
+      })
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (res) {
+          alert("Remove Product " + res.response.title + " Success!!!");
           fetchData();
         })
         .catch((err) => {
           console.log(err);
-          alert("Error!! Remove Product");
         });
     }
   };
@@ -34,6 +37,7 @@ function ManageProduct() {
         setLoading(false);
       })
       .catch((err) => {
+        setLoading(false);
         console.log(err);
       });
   };
@@ -50,7 +54,9 @@ function ManageProduct() {
   return (
     <div className="w-full container mx-auto py-20">
       <h3 className="text-4xl text-center font-bold">Manage product</h3>
-      {loading && <span className="loading loading-ring text-error opacity-40 w-1/4 fixed inset-x-1/3 z-10"></span>}
+      {loading && (
+        <span className="loading loading-ring text-error opacity-40 w-1/4 fixed inset-x-1/3 z-10"></span>
+      )}
       <div className="flex space-x-3 my-20">
         <Link to={`/admin/product/create`}>
           <button className="btn btn-primary">Add product</button>
@@ -61,7 +67,7 @@ function ManageProduct() {
       </div>
 
       <div className="overflow-x-auto my-10 h-96">
-        <table className="table table-pin-row">
+        <table className="table table-pin-row text-center">
           <thead>
             <tr>
               <th>Number</th>
@@ -75,7 +81,7 @@ function ManageProduct() {
           <tbody>
             {data ? (
               data.map((item, idx) => (
-                <tr key={item.id}>
+                <tr key={item.id} className="text-center">
                   <td>{idx}</td>
                   <td>{item.title}</td>
                   <td>{item.category}</td>
@@ -88,23 +94,27 @@ function ManageProduct() {
                         width: "100px",
                         height: "100px",
                         objectFit: "cover",
+                        margin: "0 auto",
                       }}
                     />
                   </td>
-                  <td className="flex space-x-3">
-                    <MdDeleteForever
-                      className="text-red-600"
-                      role="button"
-                      size={28}
-                      onClick={() => handleRemove(item.id)}
-                    />
-                    <Link to={`/admin/product/${item.id}`}>
-                      <MdModeEdit
-                        className="text-amber-600"
+                  <td className="flex mx-auto">
+                    <div className="flex mx-auto mt-5">
+                      <MdDeleteForever
+                        className="text-red-600"
                         role="button"
                         size={28}
+                        onClick={() => handleRemove(item.id)}
                       />
-                    </Link>
+
+                      <Link to={`/admin/product/${item.id}`}>
+                        <MdModeEdit
+                          className="text-amber-600"
+                          role="button"
+                          size={28}
+                        />
+                      </Link>
+                    </div>
                   </td>
                 </tr>
               ))

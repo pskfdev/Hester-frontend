@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import Login from "./Login";
 import Register from "./Register";
 import { FiShoppingCart, FiAlignLeft, FiChevronDown } from "react-icons/fi";
@@ -8,8 +8,9 @@ function Navbar() {
   const [login, setLogin] = useState(false);
   const [register, setRegister] = useState(false);
   const [bgNav, setBgNav] = useState(false);
+  const navigate = useNavigate();
   const username = localStorage.getItem("username");
-  /* let cart = []; */
+  
   let cart = JSON.parse(localStorage.getItem("cart"));
   let location = useLocation();
   let path = location.pathname;
@@ -27,7 +28,8 @@ function Navbar() {
   const Logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("username");
-    window.location.reload(false);
+    /* window.location.reload(false); */
+    navigate("/");
   };
 
   const handleLogin = () => {

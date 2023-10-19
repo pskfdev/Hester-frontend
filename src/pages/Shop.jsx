@@ -18,6 +18,7 @@ function Shop() {
         setLoading(false);
       })
       .catch((err) => {
+        setLoading(false);
         console.log(err);
       });
   };
@@ -28,10 +29,10 @@ function Shop() {
   }, []);
 
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <Navbar />
 
-      <div className="container mx-auto w-100 my-20 relative">
+      <div className="container mx-auto w-100 my-20 relative grow">
         <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-44 px-10">
           {data ? (
             data.map((item, idx) => (
@@ -60,7 +61,7 @@ function Shop() {
       </div>
 
       <Footer />
-    </>
+    </div>
   );
 }
 

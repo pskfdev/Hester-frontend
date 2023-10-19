@@ -38,9 +38,6 @@ function Cart() {
   };
 
   useEffect(() => {
-    /* if (localStorage.getItem("cart")) {
-        cart = JSON.parse(localStorage.getItem("cart"));
-    } */
     window.scrollTo(0, 0);
   }, [numcount]);
 

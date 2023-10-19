@@ -9,15 +9,20 @@ function ManageCategory() {
 
   const handleRemove = (id) => {
     if (window.confirm("Are you sure delete!")) {
-      axios
-        .delete(`${import.meta.env.VITE_APP_API}/category/delete.php/?id=${id}`)
-        .then((res) => {
-          alert("Remove category " + res.data.response.name + " Success!!!");
+
+      fetch(`${import.meta.env.VITE_APP_API}/category/delete.php/?id=${id}`, {
+        method: "POST",
+        body: JSON.stringify({id:id})
+      })
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (res) {
+          alert("Remove category " + res.response.name + " Success!!!");
           fetchData();
         })
         .catch((err) => {
           console.log(err);
-          alert("Error!! Remove category");
         });
     }
   };
@@ -32,6 +37,7 @@ function ManageCategory() {
         setLoading(false);
       })
       .catch((err) => {
+        setLoading(false);
         console.log(err);
       });
   };
@@ -48,7 +54,9 @@ function ManageCategory() {
   return (
     <div className="w-full container mx-auto py-20">
       <h3 className="text-4xl text-center font-bold">Manage category</h3>
-      {loading && <span className="loading loading-ring text-error opacity-40 w-1/4 fixed inset-x-1/3 z-10"></span>}
+      {loading && (
+        <span className="loading loading-ring text-error opacity-40 w-1/4 fixed inset-x-1/3 z-10"></span>
+      )}
       <div className="flex space-x-3 my-20">
         <Link to={`/admin/category/create`}>
           <button className="btn btn-primary">Add category</button>

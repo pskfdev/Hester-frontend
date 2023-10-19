@@ -3,20 +3,26 @@ import axios from "axios";
 import LoadingtoRedirect from "./LoadingtoRedirect";
 
 function AdminRoute({ children }) {
-  const [value, setValue] = useState({
-    token: "",
-  });
   const [admin, setAdmin] = useState(false);
   const token = localStorage.getItem("token");
 
   useEffect(() => {
     /* check stor user && check user.token */
-    if (token) {
-        setValue({ ...value, token: token });
 
-        axios.post(`${import.meta.env.VITE_APP_API}/users/login.php`, value)
-        .then((res) => {
-          setAdmin(true);
+    if (token) {
+      fetch(`${import.meta.env.VITE_APP_API}/users/current-user.php`, {
+        method: "POST",
+        body: JSON.stringify({token:token}),
+      })
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (res) {
+          if (res.response.role == "admin") {
+            setAdmin(true)
+          } else {
+            setAdmin(false)
+          }
         })
         .catch((err) => {
           console.log(err);

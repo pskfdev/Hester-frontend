@@ -1,8 +1,7 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 function Register({ handleClose, handleLogin }) {
-
   const [value, setValue] = useState({
     username: "",
     password: "",
@@ -20,10 +19,16 @@ function Register({ handleClose, handleLogin }) {
     if (value.password !== value.password2) {
       alert("Password not match");
     } else {
-      axios.post(`${import.meta.env.VITE_APP_API}/users/register.php`, value)
-        .then((res) => {
-          console.log(res.data);
-          alert("Register user " + res.data.response.username + " success!!");
+      
+      fetch(`${import.meta.env.VITE_APP_API}/users/register.php`, {
+        method: "POST",
+        body: JSON.stringify(value),
+      })
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (res) {
+          alert("Register user " + res.response.username + " success!!");
         })
         .catch((err) => {
           console.log(err);

@@ -3,7 +3,6 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
 function Login({ handleClose, handleRegis }) {
-
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState({
@@ -27,22 +26,27 @@ function Login({ handleClose, handleRegis }) {
     e.preventDefault();
     setLoading(true);
 
-    axios
-      .post(`${import.meta.env.VITE_APP_API}/users/login.php`, value)
-      .then((res) => {
+    fetch(`${import.meta.env.VITE_APP_API}/users/login.php`, {
+      method: "POST",
+      body: JSON.stringify(value),
+    })
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (res) {
         setLoading(false);
-        alert(" Login success user : " + res.data.response.username);
-        roleRedirect(res.data.response.role)
-        localStorage.setItem("token", res.data.response.token);
-        localStorage.setItem("username", res.data.response.username);
+        alert(" Login success user : " + res.response.username);
+        roleRedirect(res.response.role);
+        localStorage.setItem("token", res.response.token);
+        localStorage.setItem("username", res.response.username);
         handleClose();
       })
       .catch((err) => {
         console.log(err);
         alert("Login Fail!!");
+        setLoading(false);
       });
   };
-
 
   return (
     <div className="modal modal-open">

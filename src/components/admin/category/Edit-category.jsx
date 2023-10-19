@@ -16,10 +16,17 @@ function Editcategory() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post(`${import.meta.env.VITE_APP_API}/category/update.php/?id=${id}`, values)
-      .then((res) => {
-        alert("Update category " + res.data.response.category + " Success!!!");
+    
+
+    fetch(`${import.meta.env.VITE_APP_API}/category/update.php/?id=${id}`, {
+      method: "POST",
+      body: JSON.stringify(values),
+    })
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (res) {
+        alert("Update category " + res.response.category + " Success!!!");
         navigate("/admin/category")
       })
       .catch((err) => {

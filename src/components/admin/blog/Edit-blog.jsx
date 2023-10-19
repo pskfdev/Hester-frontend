@@ -8,7 +8,7 @@ function Editblog() {
 
   const [values, setValues] = useState({
     name: "",
-    description: ""
+    description: "",
   });
 
   const handleChange = (e) => {
@@ -17,10 +17,16 @@ function Editblog() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post(`${import.meta.env.VITE_APP_API}/blog/update.php/?id=${id}`, values)
-      .then((res) => {
-        alert("Update blog " + res.data.response.category + " Success!!");
+    
+    fetch(`${import.meta.env.VITE_APP_API}/blog/update.php/?id=${id}`, {
+      method: "POST",
+      body: JSON.stringify(values),
+    })
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (res) {
+        alert("Update blog " + res.response.category + " Success!!");
         navigate("/admin/blog")
       })
       .catch((err) => {
@@ -54,7 +60,7 @@ function Editblog() {
               required
               name="description"
               placeholder="Description"
-              className="mt-5 textarea textarea-bordered w-full max-w-xs" 
+              className="mt-5 textarea textarea-bordered w-full max-w-xs"
               onChange={handleChange}
             ></textarea>
           </div>
@@ -63,7 +69,7 @@ function Editblog() {
             className="mt-10 btn btn-primary w-full max-w-xs"
             type="submit"
           >
-            Submit
+            Update
           </button>
         </form>
       </div>

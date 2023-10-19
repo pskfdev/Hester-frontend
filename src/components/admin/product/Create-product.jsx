@@ -29,15 +29,19 @@ function Createproduct() {
     formData.append("price", values.price);
     formData.append("img", values.img);
 
-    axios
-      .post(`${import.meta.env.VITE_APP_API}/products/create.php`, formData)
-      .then((res) => {
-        alert(`Add product ${res.data.response.title} success!`);
+      fetch(`${import.meta.env.VITE_APP_API}/products/create.php`, {
+        method: "POST",
+        body: formData,
       })
-      .catch((err) => {
-        /* alert(err.response.data); */
-        console.log(err);
-      });
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (res) {
+          alert(`Add product ${res.response.title} success!`);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     navigate("/admin/product");
   };
 

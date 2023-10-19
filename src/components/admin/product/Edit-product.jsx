@@ -30,13 +30,15 @@ function Editproduct() {
     formData.append("img", values.img);
     formData.append("imgNew", values.imgNew);
 
-    axios
-      .post(
-        `${import.meta.env.VITE_APP_API}/products/update.php/?id=${id}`,
-        formData
-      )
-      .then((res) => {
-        alert("Update product " + res.data.response.title + " Success!!!");
+    fetch(`${import.meta.env.VITE_APP_API}/products/update.php/?id=${id}`, {
+      method: "POST",
+      body: formData,
+    })
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (res) {
+        alert("Update product " + res.response.title + " Success!!!");
         navigate("/admin/product");
       })
       .catch((err) => {
@@ -94,16 +96,14 @@ function Editproduct() {
             />
           </div>
           <div>
-            <select 
+            <select
               required
               className="mt-5 select w-full max-w-xs select-bordered"
               onChange={(e) =>
                 setValues({ ...values, category: e.target.value })
               }
             >
-              <option value="">
-                --please select category--
-              </option>
+              <option value="">--please select category--</option>
               {category.map((item, index) => (
                 <option value={item.name} key={index}>
                   {item.name}
@@ -146,7 +146,7 @@ function Editproduct() {
             className="mt-10 btn btn-primary w-full max-w-xs"
             type="submit"
           >
-            Submit
+            Update
           </button>
         </form>
       </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, NavLink } from "react-router-dom";
 import { MdDensityMedium } from "react-icons/md";
 import { FiChevronDown } from "react-icons/fi";
 
@@ -25,16 +25,16 @@ function NavbarAdmin() {
             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-emerald-600 rounded-box w-52 text-white"
           >
             <li>
-              <Link to="/admin/user">Manage user</Link>
+              <NavLink to="/admin/user">Manage user</NavLink>
             </li>
             <li>
-              <Link to="/admin/category">Manage category</Link>
+              <NavLink to="/admin/category">Manage category</NavLink>
             </li>
             <li>
-              <Link to="/admin/product">Manage product</Link>
+              <NavLink to="/admin/product">Manage product</NavLink>
             </li>
             <li>
-              <Link to="/admin/blog">Manage blog</Link>
+              <NavLink to="/admin/blog">Manage blog</NavLink>
             </li>
           </ul>
         </div>
