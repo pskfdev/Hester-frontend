@@ -19,7 +19,7 @@ export const deleteWishlists = async (id, user) => {
   return await fetch(
     `${import.meta.env.VITE_APP_API}/wishlist/delete.php/?id=${id}`,
     {
-      method: "DELETE",
+      method: "POST",
       body: JSON.stringify({ username: user }),
     }
   )

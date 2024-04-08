@@ -68,7 +68,7 @@ function Cart() {
                       <td>{idx}</td>
                       <td>
                         <img
-                          src={`${import.meta.env.VITE_APP_IMAGE_LOCAL}${item.img}`}
+                          src={`${import.meta.env.VITE_APP_IMAGE}${item.img}`}
                           className="w-24 mx-auto"
                         />
                       </td>
