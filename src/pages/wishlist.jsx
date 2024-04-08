@@ -65,7 +65,7 @@ function wishlist() {
               <div className="hover:bg-slate-50 border-y flex flex-col mx-auto items-center my-5 py-5 text-center space-y-5 md:flex-row justify-around" key={item.product_id}>
                 <div>
                   <img
-                    src={`${import.meta.env.VITE_APP_IMAGE_LOCAL}${item.img}`}
+                    src={`${import.meta.env.VITE_APP_IMAGE}${item.img}`}
                     alt={item.title}
                     className="w-40 mx-auto"
                   />

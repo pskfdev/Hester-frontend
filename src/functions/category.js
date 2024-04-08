@@ -27,7 +27,7 @@ export const deleteCategory = async (id) => {
   return await fetch(
     `${import.meta.env.VITE_APP_API}/category/delete.php/?id=${id}`,
     {
-      method: "DELETE",
+      method: "POST",
       body: JSON.stringify({ id: id }),
     }
   );

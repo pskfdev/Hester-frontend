@@ -29,6 +29,6 @@ export const updateBlog = async (id, values) => {
 
 export const deleteBlog = async (id) => {
   return await fetch(`${import.meta.env.VITE_APP_API}/blog/delete.php/?id=${id}`, {
-    method: "DELETE",
+    method: "POST",
   })
 };
