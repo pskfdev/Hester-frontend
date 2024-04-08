@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { createProduct } from "../../../functions/product";
+import { listCategory } from "../../../functions/category";
 
 function Createproduct() {
   const initialState = {
@@ -29,21 +30,21 @@ function Createproduct() {
     formData.append("price", values.price);
     formData.append("img", values.img);
 
-    axios
-      .post(`${import.meta.env.VITE_APP_API}/products/create.php`, formData)
-      .then((res) => {
-        alert(`Add product ${res.data.response.title} success!`);
+    createProduct(formData)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (res) {
+        alert(`Add product ${res.response.title} success!`);
       })
       .catch((err) => {
-        /* alert(err.response.data); */
         console.log(err);
       });
     navigate("/admin/product");
   };
 
   const fetchCategory = () => {
-    axios
-      .get(`${import.meta.env.VITE_APP_API}/category/list.php`)
+    listCategory()
       .then((res) => {
         setCategory(res.data.response);
       })
@@ -52,7 +53,6 @@ function Createproduct() {
       });
   };
 
-  /* console.log(category); */
 
   useEffect(() => {
     fetchCategory();
@@ -83,11 +83,11 @@ function Createproduct() {
             <select
               required
               className="mt-5 select w-full max-w-xs select-bordered"
-              onChange={(e) => setValues({ ...values, category: e.target.value })}
+              onChange={(e) =>
+                setValues({ ...values, category: e.target.value })
+              }
             >
-              <option value="">
-                --please select category--
-              </option>
+              <option value="">--please select category--</option>
               {category.map((item, index) => (
                 <option value={item.name} key={index}>
                   {item.name}

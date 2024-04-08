@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { readProduct, updateProduct } from "../../../functions/product";
+import { listCategory } from "../../../functions/category";
 
 function Editproduct() {
   const navigate = useNavigate();
@@ -30,13 +32,12 @@ function Editproduct() {
     formData.append("img", values.img);
     formData.append("imgNew", values.imgNew);
 
-    axios
-      .post(
-        `${import.meta.env.VITE_APP_API}/products/update.php/?id=${id}`,
-        formData
-      )
-      .then((res) => {
-        alert("Update product " + res.data.response.title + " Success!!!");
+    updateProduct(id, formData)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (res) {
+        alert("Update product " + res.response.title + " Success!!!");
         navigate("/admin/product");
       })
       .catch((err) => {
@@ -45,8 +46,7 @@ function Editproduct() {
   };
 
   const fetchData = () => {
-    axios
-      .get(`${import.meta.env.VITE_APP_API}/products/read.php/?id=${id}`)
+    readProduct(id)
       .then((res) => {
         setValues({ ...values, img: res.data.response.img });
         setData(res.data.response);
@@ -57,8 +57,7 @@ function Editproduct() {
   };
 
   const fetchCategory = () => {
-    axios
-      .get(`${import.meta.env.VITE_APP_API}/category/list.php`)
+    listCategory()
       .then((res) => {
         setCategory(res.data.response);
       })
@@ -94,16 +93,14 @@ function Editproduct() {
             />
           </div>
           <div>
-            <select 
+            <select
               required
               className="mt-5 select w-full max-w-xs select-bordered"
               onChange={(e) =>
                 setValues({ ...values, category: e.target.value })
               }
             >
-              <option value="">
-                --please select category--
-              </option>
+              <option value="">--please select category--</option>
               {category.map((item, index) => (
                 <option value={item.name} key={index}>
                   {item.name}
@@ -146,7 +143,7 @@ function Editproduct() {
             className="mt-10 btn btn-primary w-full max-w-xs"
             type="submit"
           >
-            Submit
+            Update
           </button>
         </form>
       </div>

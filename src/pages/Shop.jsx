@@ -1,43 +1,88 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import Navbar from "../components/navbar/Navbar";
-import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
+import { listCategory } from "../functions/category";
+import { listProduct } from "../functions/product";
 
 function Shop() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [category, setCategory] = useState([]);
+  const [activeMenu, setActiveMenu] = useState("all");
+  const [filter, setFilter] = useState([]); /* keep data filter */
 
-  const fetchData = () => {
-    setLoading(true);
+  const SelectCategory = (name) => {
+    const updateItems = data.filter((item) => {
+      return item.category == name;
+    });
+    setFilter(updateItems);
+    setActiveMenu(name);
+  };
 
-    axios
-      .get(`${import.meta.env.VITE_APP_API}/products/list.php`)
+  const fetchCategory = () => {
+    listCategory()
       .then((res) => {
-        setData(res.data.response);
-        setLoading(false);
+        setCategory(res.data.response);
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
+  const fetchData = () => {
+    setLoading(true);
+
+    listProduct()
+      .then((res) => {
+        setData(res.data.response);
+        setFilter(res.data.response);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+      });
+  };
+
   useEffect(() => {
+    fetchCategory();
     fetchData();
     window.scrollTo(0, 0);
   }, []);
 
   return (
-    <>
-      <Navbar />
+    <div className="flex flex-col min-h-screen">
 
-      <div className="container mx-auto w-100 my-20 relative">
-        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-44 px-10">
-          {data ? (
-            data.map((item, idx) => (
-              <Link to={`/shop/${item.id}`} key={item.id} className="">
+      <div className="container mx-auto w-100 my-20 relative grow">
+        {/* Menu category */}
+        <div className="tabs tabs-boxed w-fit mx-auto mt-44 uppercase">
+          <a
+            className={`tab ${"all" == activeMenu && "tab-active"}`}
+            onClick={() => {
+              setFilter(data);
+              setActiveMenu("all");
+            }}
+          >
+            all
+          </a>
+          {category &&
+            category.map((item, idx) => (
+              <a
+                key={item.id}
+                className={`tab ${item.name == activeMenu && "tab-active"}`}
+                onClick={() => SelectCategory(item.name)}
+              >
+                {item.name}
+              </a>
+            ))}
+        </div>
+
+        {/* show products */}
+        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-10 px-10">
+          {filter ? (
+            filter.map((item, idx) => (
+              <Link to={`/shop/${item.id}`} key={item.id}>
                 <img
-                  src={`${import.meta.env.VITE_APP_IMAGE}${item.img}`}
+                  src={`${import.meta.env.VITE_APP_IMAGE}/${item.img}`}
                   alt={item.title}
                   style={{
                     width: "100%",
@@ -54,13 +99,12 @@ function Shop() {
           ) : (
             <p className="text-center">No, Data product..</p>
           )}
-          {loading && <span className="loading loading-ring text-error opacity-40 w-1/4 fixed inset-x-1/3 z-10"></span>}
+          {loading && (
+            <span className="loading loading-ring text-error opacity-40 w-1/4 fixed inset-x-1/3 z-10"></span>
+          )}
         </div>
-        
       </div>
-
-      <Footer />
-    </>
+    </div>
   );
 }
 

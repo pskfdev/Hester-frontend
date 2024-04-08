@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import Navbar from "../components/navbar/Navbar";
-import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
+import { listBlog } from "../functions/blog";
 
 function Blog() {
 
@@ -12,13 +10,13 @@ function Blog() {
   const fetchData = () => {
     setLoading(true);
 
-    axios
-      .get(`${import.meta.env.VITE_APP_API}/blog/list.php`)
+    listBlog()
       .then((res) => {
         setData(res.data.response);
         setLoading(false);
       })
       .catch((err) => {
+        setLoading(false);
         console.log(err);
       });
   };
@@ -29,10 +27,9 @@ function Blog() {
   }, []);
 
   return (
-    <>
-      <Navbar />
+    <div className="flex flex-col min-h-screen">
 
-      <div className="w-100 my-20">
+      <div className="w-100 my-20 grow">
         <div className="w-100 container mx-auto pt-40 px-10 lg:px-0 relative">
         {loading && <span className="loading loading-ring text-error opacity-40 w-1/4 fixed inset-x-1/3 z-10"></span>}
           <h1 className="text-4xl font-bold text-center">Our Blog</h1>
@@ -49,8 +46,7 @@ function Blog() {
         </div>
       </div>
 
-      <Footer />
-    </>
+    </div>
   );
 }
 

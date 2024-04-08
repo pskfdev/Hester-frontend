@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { MdDeleteForever, MdAutorenew } from "react-icons/md";
+import { listUser, DeleteUser, changeRole } from "../../functions/user";
 import { Link, useLocation, Outlet } from "react-router-dom";
 
 function ManageUser() {
@@ -14,11 +15,12 @@ function ManageUser() {
       role: e,
     };
 
-    axios
-      .post(`${import.meta.env.VITE_APP_API}/users/change-role.php/?id=${id}`, values)
-      .then((res) => {
-        console.log(res);
-        alert(`Change role ${res.data.response.role} success!`);
+    changeRole(id, values)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (res) {
+        alert(`Change role ${res.response.role} success!`);
         fetchData();
       })
       .catch((err) => {
@@ -28,11 +30,13 @@ function ManageUser() {
 
   const handleRemove = (id) => {
     if (window.confirm("Are you sure delete!")) {
-      axios
-        .delete(`${import.meta.env.VITE_APP_API}/users/delete.php/?id=${id}`)
-        .then((res) => {
-          console.log(res.data);
-          alert("Remove user " + res.data.response.username + " Success!!!");
+
+      DeleteUser(id)
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (res) {
+          alert("Remove user " + res.response.username + " Success!!!");
           fetchData();
         })
         .catch((err) => {
@@ -45,13 +49,13 @@ function ManageUser() {
   const fetchData = () => {
     setLoading(true);
 
-    axios
-      .get(`${import.meta.env.VITE_APP_API}/users/list.php`)
+    listUser()
       .then((res) => {
         setData(res.data.response);
         setLoading(false);
       })
       .catch((err) => {
+        setLoading(false);
         console.log(err);
       });
   };
@@ -65,9 +69,11 @@ function ManageUser() {
     fetchData();
   }, []);
   return (
-    <div className="w-full container mx-auto py-20">
-      <h3 className="text-4xl text-center font-bold">Manage user</h3>
-      {loading && <span className="loading loading-ring text-error opacity-40 w-1/4 fixed inset-x-1/3 z-10"></span>}
+    <div className="w-full container mx-auto py-20 px-5">
+      <h3 className="text-4xl text-center font-bold text-gray-500 underline underline-offset-4">Manage user</h3>
+      {loading && (
+        <span className="loading loading-ring text-error opacity-40 w-1/4 fixed inset-x-1/3 z-10"></span>
+      )}
       <div className="flex space-x-3 my-20">
         <button onClick={refreshPage} className="btn btn-warning">
           <MdAutorenew size={28} />
@@ -75,8 +81,8 @@ function ManageUser() {
       </div>
 
       <div className="overflow-x-auto my-10 h-96">
-        <table className="table table-pin-row">
-          <thead>
+        <table className="table table-pin-row bg-gradient-to-r from-slate-200 to-gray-300">
+          <thead className="">
             <tr>
               <th>Number</th>
               <th>Username</th>

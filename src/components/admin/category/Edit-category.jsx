@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import { updateCategory } from "../../../functions/category";
 
 function Editcategory() {
   const navigate = useNavigate();
@@ -16,10 +16,13 @@ function Editcategory() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post(`${import.meta.env.VITE_APP_API}/category/update.php/?id=${id}`, values)
-      .then((res) => {
-        alert("Update category " + res.data.response.category + " Success!!!");
+    
+    updateCategory(id, values)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (res) {
+        alert("Update category " + res.response.category + " Success!!!");
         navigate("/admin/category")
       })
       .catch((err) => {

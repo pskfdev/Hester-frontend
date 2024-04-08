@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { createCategory } from "../../../functions/category";
 
 function Createcategory() {
-  
   const navigate = useNavigate();
   const [values, setValues] = useState({
     name: "",
@@ -11,10 +10,13 @@ function Createcategory() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post(`${import.meta.env.VITE_APP_API}/category/create.php`, values)
-      .then((res) => {
-        alert("Insert category " + res.data.response.category + " Success!!!");
+    
+    createCategory(values)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (res) {
+        alert("Insert category " + res.response.category + " Success!!!");
         navigate("/admin/category")
       })
       .catch((err) => {
@@ -57,7 +59,7 @@ function Createcategory() {
         </form>
       </div>
     </div>
-  )
+  );
 }
 
 export default Createcategory;

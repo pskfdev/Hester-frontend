@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { signin } from "../../store/userSlice";
+import { addWishlist } from "../../store/wishlistSlice";
+import { listWishlist } from "../../functions/wishlist";
+import { login } from "../../functions/auth";
 
 function Login({ handleClose, handleRegis }) {
-
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState({
     username: "",
@@ -23,26 +27,48 @@ function Login({ handleClose, handleRegis }) {
     }
   };
 
+  /* get wishlist to redux */
+  const fetchWishlist = (token) => {
+
+    listWishlist(token)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (res) {
+        const data = res.response;
+        data.forEach((item) => dispatch(addWishlist(item.product_id)));
+      })
+      .catch((err) => {
+        console.log("get wishlist fail!" + err);
+      });
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
 
-    axios
-      .post(`${import.meta.env.VITE_APP_API}/users/login.php`, value)
-      .then((res) => {
+    login(value)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (res) {
         setLoading(false);
-        alert(" Login success user : " + res.data.response.username);
-        roleRedirect(res.data.response.role)
-        localStorage.setItem("token", res.data.response.token);
-        localStorage.setItem("username", res.data.response.username);
+        alert(" Login success user : " + res.response.username);
+        roleRedirect(res.response.role);
+
+        dispatch(signin(res.response));
+        localStorage.setItem("token", res.response.token);
+
+        /* get wistlist */
+        fetchWishlist(res.response.token);
         handleClose();
       })
       .catch((err) => {
         console.log(err);
         alert("Login Fail!!");
+        setLoading(false);
       });
   };
-
 
   return (
     <div className="modal modal-open">
@@ -74,7 +100,6 @@ function Login({ handleClose, handleRegis }) {
           <button
             className="mt-5 btn btn-primary w-full max-w-xs"
             type="submit"
-            /* onClick={handleSubmit} */
           >
             {loading ? <span className="loading " /> : <>sign in</>}
           </button>

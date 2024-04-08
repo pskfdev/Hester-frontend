@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { createBlog } from "../../../functions/blog";
 
 function Createblog() {
-
   const navigate = useNavigate();
 
   const [values, setValues] = useState({
     name: "",
-    description: ""
+    description: "",
   });
 
   const handleChange = (e) => {
@@ -17,10 +16,13 @@ function Createblog() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post(`${import.meta.env.VITE_APP_API}/blog/create.php`, values)
-      .then((res) => {
-        alert("Insert blog " + res.data.response.name + " Success!!");
+    
+    createBlog(values)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (res) {
+        alert("Insert blog " + res.response.name + " Success!!");
         navigate("/admin/blog")
       })
       .catch((err) => {
@@ -54,7 +56,7 @@ function Createblog() {
               required
               name="description"
               placeholder="Description"
-              className="mt-5 textarea textarea-bordered w-full max-w-xs" 
+              className="mt-5 textarea textarea-bordered w-full max-w-xs"
               onChange={handleChange}
             ></textarea>
           </div>
