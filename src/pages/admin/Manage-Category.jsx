@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { MdDeleteForever, MdModeEdit, MdAutorenew } from "react-icons/md";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
+import { listCategory, deleteCategory } from "../../functions/category";
 
 function ManageCategory() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const location = useLocation();
+
   const handleRemove = (id) => {
     if (window.confirm("Are you sure delete!")) {
 
-      fetch(`${import.meta.env.VITE_APP_API}/category/delete.php/?id=${id}`, {
-        method: "POST",
-        body: JSON.stringify({id:id})
-      })
+      deleteCategory(id)
         .then(function (response) {
           return response.json();
         })
@@ -30,8 +29,7 @@ function ManageCategory() {
   const fetchData = () => {
     setLoading(true);
 
-    axios
-      .get(`${import.meta.env.VITE_APP_API}/category/list.php`)
+    listCategory()
       .then((res) => {
         setData(res.data.response);
         setLoading(false);
@@ -47,13 +45,14 @@ function ManageCategory() {
     fetchData();
   };
 
+
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [location.pathname]);
 
   return (
-    <div className="w-full container mx-auto py-20">
-      <h3 className="text-4xl text-center font-bold">Manage category</h3>
+    <div className="w-full container mx-auto py-20 px-5">
+      <h3 className="text-4xl text-center font-bold text-gray-500 underline underline-offset-4">Manage category</h3>
       {loading && (
         <span className="loading loading-ring text-error opacity-40 w-1/4 fixed inset-x-1/3 z-10"></span>
       )}
@@ -67,7 +66,7 @@ function ManageCategory() {
       </div>
 
       <div className="overflow-x-auto my-10 h-96">
-        <table className="table table-pin-row">
+        <table className="table table-pin-row bg-gradient-to-r from-slate-200 to-gray-300">
           <thead>
             <tr>
               <th>Number</th>

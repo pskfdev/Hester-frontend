@@ -58,18 +58,20 @@ function HomeAdmin() {
   }, []);
 
   return (
-    <>
+    <div className="min-h-screen flex flex-col flex-grow bg-slate-200">
       <NavbarAdmin />
 
-      <div className="flex">
+      <div className="flex h-full flex-grow">
         <MenuAdmin />
 
-        <div className="w-full bg-slate-200 h-100 lg:h-screen">
+        <div className="w-full">
           {pathName === "/admin" && (
-            <div className="w-full container mx-auto py-20">
-              <h3 className="text-4xl text-center font-bold mb-10">
+            <div className="w-full container mx-auto py-20 px-5">
+              <h3 className="text-4xl text-center font-bold mb-10 text-gray-500 underline underline-offset-4">
                 Dashboard
               </h3>
+
+              {/* For Loading */}
               {loading && (
                 <span className="loading loading-ring text-error opacity-40 w-1/4 fixed inset-x-1/3 z-10"></span>
               )}
@@ -171,7 +173,7 @@ function HomeAdmin() {
           <Outlet />
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

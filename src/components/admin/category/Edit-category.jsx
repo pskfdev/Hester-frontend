@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import { updateCategory } from "../../../functions/category";
 
 function Editcategory() {
   const navigate = useNavigate();
@@ -17,11 +17,7 @@ function Editcategory() {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-
-    fetch(`${import.meta.env.VITE_APP_API}/category/update.php/?id=${id}`, {
-      method: "POST",
-      body: JSON.stringify(values),
-    })
+    updateCategory(id, values)
       .then(function (response) {
         return response.json();
       })

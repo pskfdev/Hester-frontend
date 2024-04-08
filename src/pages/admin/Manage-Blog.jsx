@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { MdDeleteForever, MdModeEdit, MdAutorenew } from "react-icons/md";
 import { Link, useLocation, Outlet } from "react-router-dom";
+import { listBlog, deleteBlog } from "../../functions/blog";
 
 function ManageBlog() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const location = useLocation();
+
   const handleRemove = (id) => {
     if (window.confirm("Are you sure delete!")) {
 
-      fetch(`${import.meta.env.VITE_APP_API}/blog/delete.php`, {
-        method: "POST",
-        body: JSON.stringify({id:id})
-      })
+      deleteBlog(id)
         .then(function (response) {
           return response.json();
         })
@@ -30,8 +29,7 @@ function ManageBlog() {
   const fetchData = () => {
     setLoading(true);
 
-    axios
-      .get(`${import.meta.env.VITE_APP_API}/blog/list.php`)
+    listBlog()
       .then((res) => {
         setData(res.data.response);
         setLoading(false);
@@ -49,14 +47,18 @@ function ManageBlog() {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [location.pathname]);
 
   return (
-    <div className="w-full container mx-auto py-20">
-      <h3 className="text-4xl text-center font-bold">Manage blog</h3>
+    <div className="w-full container mx-auto py-20 px-5">
+      <h3 className="text-4xl text-center font-bold text-gray-500 underline underline-offset-4">Manage blog</h3>
+
+      {/* For Loading */}
       {loading && (
         <span className="loading loading-ring text-error opacity-40 w-1/4 fixed inset-x-1/3 z-10"></span>
       )}
+
+      {/* For button Add */}
       <div className="flex space-x-3 my-20">
         <Link to={`/admin/blog/create`}>
           <button className="btn btn-primary">Add blog</button>
@@ -66,8 +68,9 @@ function ManageBlog() {
         </button>
       </div>
 
+      {/* Table */}
       <div className="overflow-x-auto my-10 h-96">
-        <table className="table table-pin-row">
+        <table className="table table-pin-row bg-gradient-to-r from-slate-200 to-gray-300">
           <thead>
             <tr>
               <th>Number</th>

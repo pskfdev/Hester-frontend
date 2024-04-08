@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { readProduct, updateProduct } from "../../../functions/product";
+import { listCategory } from "../../../functions/category";
 
 function Editproduct() {
   const navigate = useNavigate();
@@ -30,10 +32,7 @@ function Editproduct() {
     formData.append("img", values.img);
     formData.append("imgNew", values.imgNew);
 
-    fetch(`${import.meta.env.VITE_APP_API}/products/update.php/?id=${id}`, {
-      method: "POST",
-      body: formData,
-    })
+    updateProduct(id, formData)
       .then(function (response) {
         return response.json();
       })
@@ -47,8 +46,7 @@ function Editproduct() {
   };
 
   const fetchData = () => {
-    axios
-      .get(`${import.meta.env.VITE_APP_API}/products/read.php/?id=${id}`)
+    readProduct(id)
       .then((res) => {
         setValues({ ...values, img: res.data.response.img });
         setData(res.data.response);
@@ -59,8 +57,7 @@ function Editproduct() {
   };
 
   const fetchCategory = () => {
-    axios
-      .get(`${import.meta.env.VITE_APP_API}/category/list.php`)
+    listCategory()
       .then((res) => {
         setCategory(res.data.response);
       })

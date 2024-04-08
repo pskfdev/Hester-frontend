@@ -1,6 +1,4 @@
 import React, { useEffect } from "react";
-import Navbar from "../components/navbar/Navbar";
-import Footer from "../components/Footer";
 import bgProduct from "../assets/background/bg-product.jpg";
 
 function About() {
@@ -10,8 +8,6 @@ function About() {
   }, [])
   return (
     <>
-      <Navbar />
-
       <div className="w-100 my-20">
         <div className="w-100 lg:w-2/4 mx-auto my-60 px-5 lg:px-0">
           <h1 className="text-4xl font-bold">Our Story</h1>
@@ -52,8 +48,6 @@ function About() {
           </p>
         </div>
       </div>
-
-      <Footer />
     </>
   );
 }

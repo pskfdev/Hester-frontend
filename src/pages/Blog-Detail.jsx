@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Link, useParams } from "react-router-dom";
-import Navbar from "../components/navbar/Navbar";
-import Footer from "../components/Footer";
+import { readBlog } from "../functions/blog";
 
 function BlogDetail() {
   const [data, setData] = useState([]);
@@ -12,8 +10,7 @@ function BlogDetail() {
   const fetchData = () => {
     setLoading(true);
 
-    axios
-      .get(`${import.meta.env.VITE_APP_API}/blog/read.php/?id=${id}`)
+    readBlog(id)
       .then((res) => {
         setData(res.data.response);
         setLoading(false);
@@ -31,7 +28,6 @@ function BlogDetail() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar />
 
       <div className="w-100 container mx-auto py-32 grow">
         <div className="mt-32 px-5 lg:px-0">
@@ -43,7 +39,6 @@ function BlogDetail() {
         <Link to="/blog" className="btn mt-20">Back to blog</Link>
       </div>
 
-      <Footer />
     </div>
   );
 }

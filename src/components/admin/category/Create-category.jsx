@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { createCategory } from "../../../functions/category";
 
 function Createcategory() {
   const navigate = useNavigate();
@@ -11,10 +11,7 @@ function Createcategory() {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    fetch(`${import.meta.env.VITE_APP_API}/category/create.php`, {
-      method: "POST",
-      body: JSON.stringify(values),
-    })
+    createCategory(values)
       .then(function (response) {
         return response.json();
       })

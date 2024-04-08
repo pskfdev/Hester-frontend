@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
-import Navbar from "../components/navbar/Navbar";
-import Footer from "../components/Footer";
+import { readProduct } from "../functions/product";
 import Vegetable from "../components/product-category/Vegetable";
 import Fruit from "../components/product-category/Fruit";
+import ButtonWishlist from "../components/Button-wishlist";
 
 function ProductDetail() {
   let { id } = useParams();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const idtoken = localStorage.token;
 
-  /* for button */
+  /* for button Quantity and button add cart */
   const [disabled, setDisabled] = useState(false);
   const [count, setCount] = useState(1);
 
@@ -38,13 +39,13 @@ function ProductDetail() {
       } else {
         cart.push({
           ...data,
-          count: count
+          count: count,
         });
       }
     } else {
       cart.push({
         ...data,
-        count: count
+        count: count,
       });
     }
 
@@ -57,8 +58,7 @@ function ProductDetail() {
   const fetchData = () => {
     setLoading(true);
 
-    axios
-      .get(`${import.meta.env.VITE_APP_API}/products/read.php/?id=${id}`)
+    readProduct(id)
       .then((res) => {
         setData(res.data.response);
         setLoading(false);
@@ -76,8 +76,6 @@ function ProductDetail() {
 
   return (
     <>
-      <Navbar />
-
       <div className="my-48 container mx-auto px-5 md:px-0">
         <div className="my-10 text-lg font-bold text-slate-500">
           <Link to="/shop">Shop</Link> <span>{">"}</span>{" "}
@@ -100,9 +98,15 @@ function ProductDetail() {
 
           <div className="w-100 lg:w-9/12 space-y-8 mt-10 lg:mt-0">
             <div>
-              <p className="text-4xl font-bold">{data.title}</p><br />
-              <p className="text-xl font-bold">${data.price}</p><br />
+              <p className="text-4xl font-bold">{data.title}</p>
+              <br />
+              <p className="text-xl font-bold">${data.price}</p>
+              <br />
               <p className="text-xl">{data.description}</p>
+            </div>
+
+            <div>
+              <ButtonWishlist id={id} />
             </div>
 
             <div className="flex items-center">
@@ -122,16 +126,18 @@ function ProductDetail() {
               </button>
             </div>
             <br />
-            
+
             <button
               className="btn btn-primary w-full"
               onClick={addCart}
-              disabled={disabled}
+              disabled={idtoken ? disabled : true}
             >
-              {disabled ? <span className="loading " /> : <p>Add To Cart</p>}
+              {disabled ? <span className="loading" /> : <p>Add To Cart</p>}
             </button>
           </div>
-          {loading && <span className="loading loading-ring text-error opacity-40 w-1/4 fixed inset-x-1/3 z-10"></span>}
+          {loading && (
+            <span className="loading loading-ring text-error opacity-40 w-1/4 fixed inset-x-1/3 z-10"></span>
+          )}
         </div>
 
         <div className="my-40">
@@ -139,8 +145,6 @@ function ProductDetail() {
           {data.category == "vegetable" ? <Vegetable /> : <Fruit />}
         </div>
       </div>
-
-      <Footer />
     </>
   );
 }

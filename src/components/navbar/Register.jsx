@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { register } from "../../functions/auth";
 
 function Register({ handleClose, handleLogin }) {
   const [value, setValue] = useState({
@@ -20,10 +21,7 @@ function Register({ handleClose, handleLogin }) {
       alert("Password not match");
     } else {
       
-      fetch(`${import.meta.env.VITE_APP_API}/users/register.php`, {
-        method: "POST",
-        body: JSON.stringify(value),
-      })
+      register(value)
         .then(function (response) {
           return response.json();
         })

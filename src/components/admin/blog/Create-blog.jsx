@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { createBlog } from "../../../functions/blog";
 
 function Createblog() {
   const navigate = useNavigate();
@@ -17,10 +17,7 @@ function Createblog() {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    fetch(`${import.meta.env.VITE_APP_API}/blog/create.php`, {
-      method: "POST",
-      body: JSON.stringify(values),
-    })
+    createBlog(values)
       .then(function (response) {
         return response.json();
       })

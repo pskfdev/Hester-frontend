@@ -2,15 +2,28 @@ import React, { useState, useEffect } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import Login from "./Login";
 import Register from "./Register";
-import { FiShoppingCart, FiAlignLeft, FiChevronDown } from "react-icons/fi";
+import {
+  FiShoppingCart,
+  FiAlignLeft,
+  FiChevronDown,
+  FiHeart,
+} from "react-icons/fi";
+import { useSelector, useDispatch } from "react-redux";
+import { signin, logout } from "../../store/userSlice";
+import { clearProductId } from "../../store/wishlistSlice";
+import { currentUser } from "../../functions/auth";
 
 function Navbar() {
   const [login, setLogin] = useState(false);
   const [register, setRegister] = useState(false);
   const [bgNav, setBgNav] = useState(false);
   const navigate = useNavigate();
-  const username = localStorage.getItem("username");
-  
+
+  const dispatch = useDispatch();
+  const idtoken = localStorage.token;
+
+  const user = useSelector((state) => state.userStore.user);
+
   let cart = JSON.parse(localStorage.getItem("cart"));
   let location = useLocation();
   let path = location.pathname;
@@ -26,9 +39,8 @@ function Navbar() {
   window.addEventListener("scroll", changColorNav);
 
   const Logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("username");
-    /* window.location.reload(false); */
+    dispatch(logout());
+    dispatch(clearProductId());
     navigate("/");
   };
 
@@ -47,14 +59,33 @@ function Navbar() {
     setRegister(false);
   };
 
+  /* ฟังก์ชั่นโหลดข้อมูล user //เพื่อเช็ค user ที่ใช้งานอยู่ในปัจจุบันโดยใช้ Token ในการเช็ค */
+  const fetchUser = () => {
+    if (idtoken) {
+      currentUser(idtoken)
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (res) {
+          dispatch(signin(res.response));
+        })
+        .catch((err) => {
+          console.log("fetchUser error!" + err);
+        });
+    }
+  };
+
   useEffect(() => {
-  }, []);
+    fetchUser();
+  }, [idtoken]);
 
   return (
     <nav
       className={`navbar z-40 py-10 px-10 lg:px-20 fixed top-0 ${
         path == "/" ? "text-white" : "text-black"
-      } flex justify-between ${bgNav ? "bg-red-400 bg-opacity-70" : "bg-tranparent"}`}
+      } flex justify-between ${
+        bgNav ? "bg-red-400 bg-opacity-70" : "bg-tranparent"
+      }`}
     >
       <div className="text-lg hidden lg:block">
         <NavLink to="/shop">Shop</NavLink>
@@ -89,20 +120,30 @@ function Navbar() {
                 Blog
               </NavLink>
             </li>
-            <li>
-              <Link
-                to="/cart"
-                tabIndex={0}
-                className="btn btn-ghost btn-circle mt-4 ms-2"
-              >
-                <div className="indicator">
-                  <FiShoppingCart size={30} />
-                  <span className="badge badge-sm indicator-item bg-red-700">
-                    {cart? cart.length : ""}
-                  </span>
-                </div>
-              </Link>
-            </li>
+
+            {idtoken && (
+              <div className="flex">
+                <Link
+                  to="/wishlist"
+                  className="btn btn-ghost btn-circle mt-4 ms-2"
+                >
+                  <FiHeart size={30} />
+                </Link>
+
+                <Link
+                  to="/cart"
+                  tabIndex={0}
+                  className="btn btn-ghost btn-circle mt-4 ms-2"
+                >
+                  <div className="indicator">
+                    <FiShoppingCart size={30} />
+                    <span className="badge badge-sm indicator-item bg-red-700">
+                      {cart ? cart.length : ""}
+                    </span>
+                  </div>
+                </Link>
+              </div>
+            )}
           </ul>
         </div>
         {/* END humberger responsive */}
@@ -114,16 +155,22 @@ function Navbar() {
 
       {/* Login/Logout */}
       <div className="">
-        {username ? (
+        {user.username ? (
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-link">
-              {username}<span><FiChevronDown /></span>
+              {user.username}
+              <span>
+                <FiChevronDown />
+              </span>
             </label>
             <ul
               tabIndex={0}
               className="menu dropdown-content z-[1] shadow bg-red-300 bg-opacity-80 rounded-box w-32"
             >
-              <li className="cursor-pointer text-lg text-center" onClick={Logout}>
+              <li
+                className="cursor-pointer text-lg text-center"
+                onClick={Logout}
+              >
                 Logout
               </li>
             </ul>
@@ -140,18 +187,29 @@ function Navbar() {
         )}
         {/* END Login/Logout */}
 
-        <Link
-          to="/cart"
-          tabIndex={0}
-          className="btn btn-ghost btn-circle hidden lg:flex"
-        >
-          <div className="indicator">
-            <FiShoppingCart size={30} />
-            <span className="badge badge-sm indicator-item bg-red-700">
-              {cart? cart.length : ""}
-            </span>
+        {/* Wishlist and Cart */}
+        {idtoken && (
+          <div className="hidden lg:flex">
+            <Link
+              to="/wishlist"
+              className="btn btn-ghost btn-circle"
+            >
+              <FiHeart size={30} />
+            </Link>
+            <Link
+              to="/cart"
+              tabIndex={0}
+              className="btn btn-ghost btn-circle"
+            >
+              <div className="indicator">
+                <FiShoppingCart size={30} />
+                <span className="badge badge-sm indicator-item bg-red-700">
+                  {cart && cart.length}
+                </span>
+              </div>
+            </Link>
           </div>
-        </Link>
+        )}
       </div>
 
       {/* Modal */}

@@ -2,42 +2,65 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate, NavLink } from "react-router-dom";
 import { MdDensityMedium } from "react-icons/md";
 import { FiChevronDown } from "react-icons/fi";
+import { useSelector, useDispatch } from "react-redux";
+import { signin, logout } from "../../../store/userSlice";
+import { clearProductId } from "../../../store/wishlistSlice";
+import { currentUser } from "../../../functions/auth";
 
 function NavbarAdmin() {
-  const username = localStorage.getItem("username");
-  const navigate = useNavigate()
+  const user = useSelector((state) => state.userStore.user);
+  const idtoken = localStorage.token;
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const Logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("username");
     navigate("/");
+    dispatch(logout());
+    dispatch(clearProductId());
   };
 
+  const fetchUser = () => {
+    if (idtoken) {
+      currentUser(idtoken)
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (res) {
+          dispatch(signin(res.response));
+        })
+        .catch((err) => {
+          console.log("fetchUser error!" + err);
+        });
+    }
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, [idtoken]);
+
   return (
-    <div className="navbar bg-emerald-700 p-8 d-flex justify-between">
-      <div className="lg:hidden">
-        <div className="dropdown">
-          <label tabIndex={0} className="btn btn-ghost btn-circle">
-            <MdDensityMedium size={36} className="text-white" />
-          </label>
-          <ul
-            tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-emerald-600 rounded-box w-52 text-white"
-          >
-            <li>
-              <NavLink to="/admin/user">Manage user</NavLink>
-            </li>
-            <li>
-              <NavLink to="/admin/category">Manage category</NavLink>
-            </li>
-            <li>
-              <NavLink to="/admin/product">Manage product</NavLink>
-            </li>
-            <li>
-              <NavLink to="/admin/blog">Manage blog</NavLink>
-            </li>
-          </ul>
-        </div>
+    <div className="navbar bg-gradient-to-r from-teal-700 to-emerald-500 p-8 d-flex justify-between lg:hidden ">
+      <div className="dropdown">
+        <label tabIndex={0} className="btn btn-ghost btn-circle">
+          <MdDensityMedium size={36} className="text-white" />
+        </label>
+        <ul
+          tabIndex={0}
+          className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-emerald-600 rounded-box w-52 text-white"
+        >
+          <li>
+            <NavLink to="/admin/user">Manage user</NavLink>
+          </li>
+          <li>
+            <NavLink to="/admin/category">Manage category</NavLink>
+          </li>
+          <li>
+            <NavLink to="/admin/product">Manage product</NavLink>
+          </li>
+          <li>
+            <NavLink to="/admin/blog">Manage blog</NavLink>
+          </li>
+        </ul>
       </div>
 
       <div>
@@ -47,10 +70,13 @@ function NavbarAdmin() {
       </div>
 
       <div className="">
-        {username && (
+        {user.username && (
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-link">
-              {username}<span><FiChevronDown /></span>
+              {user.username}
+              <span>
+                <FiChevronDown />
+              </span>
             </label>
             <ul
               tabIndex={0}

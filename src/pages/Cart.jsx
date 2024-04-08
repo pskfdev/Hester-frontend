@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Navbar from "../components/navbar/Navbar";
-import Footer from "../components/Footer";
 import { FiTrash2 } from "react-icons/fi";
 
 function Cart() {
@@ -43,7 +41,6 @@ function Cart() {
 
   return (
     <>
-      <Navbar />
 
       <div className="my-52 container mx-auto ">
         <h2 className="text-center text-3xl my-10">
@@ -71,7 +68,7 @@ function Cart() {
                       <td>{idx}</td>
                       <td>
                         <img
-                          src={`${import.meta.env.VITE_APP_IMAGE}${item.img}`}
+                          src={`${import.meta.env.VITE_APP_IMAGE_LOCAL}${item.img}`}
                           className="w-24 mx-auto"
                         />
                       </td>
@@ -116,7 +113,6 @@ function Cart() {
         </div>
       </div>
 
-      <Footer />
     </>
   );
 }

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Route, Link } from "react-router-dom";
+import { listProduct } from "../functions/product";
 import bgProduct from "../assets/background/bg-product.jpg";
 
 function RecommendMenu() {
   const [data, setData] = useState([]);
 
   const fetchData = () => {
-    axios.get(`${import.meta.env.VITE_APP_API}/products/list.php`)
+    listProduct()
       .then((res) => {
         setData(res.data.response);
       })
