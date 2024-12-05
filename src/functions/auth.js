@@ -1,27 +1,33 @@
+import axios from "axios";
+
 export const login = async (value) => {
-  return await fetch(`${import.meta.env.VITE_APP_API}/users/login.php`, {
-    method: "POST",
-    body: JSON.stringify(value),
-  });
+  return await axios.post(`${import.meta.env.VITE_APP_API}/login`, value);
 };
 
 export const register = async (value) => {
-  return await fetch(
-    `${import.meta.env.VITE_APP_API}/users/register.php`,
-    {
-      method: "POST",
-      body: JSON.stringify(value),
-    }
-  );
+  return await axios.post(`${import.meta.env.VITE_APP_API}/register`, value);
 };
 
 export const currentUser = async (token) => {
-  return await fetch(
-    `${import.meta.env.VITE_APP_API}/users/current-user.php`,
+  return axios.post(
+    `${import.meta.env.VITE_API_URL}/current-user`,
+    {},
     {
-      method: "POST",
-      body: JSON.stringify({ token: token }),
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
     }
   );
 };
 
+export const currentAdmin = (token) => {
+  return axios.post(
+    `${import.meta.env.VITE_API_URL}/current-admin`,
+    {},
+    {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};

@@ -4,6 +4,7 @@ import { register } from "../../functions/auth";
 
 function Register({ handleClose, handleLogin }) {
   const [value, setValue] = useState({
+    name: "",
     username: "",
     password: "",
     password2: "",
@@ -20,13 +21,9 @@ function Register({ handleClose, handleLogin }) {
     if (value.password !== value.password2) {
       alert("Password not match");
     } else {
-      
       register(value)
-        .then(function (response) {
-          return response.json();
-        })
         .then(function (res) {
-          alert("Register user " + res.response.username + " success!!");
+          alert(res.data.message);
         })
         .catch((err) => {
           console.log(err);
@@ -48,10 +45,17 @@ function Register({ handleClose, handleLogin }) {
         <h3 className="font-bold text-3xl text-slate-600">Register</h3>
         <form className="mt-5" onSubmit={handleSubmit}>
           <input
+            name="name"
+            type="text"
+            placeholder="Name"
+            className="input w-full max-w-xs"
+            onChange={handleChange}
+          />
+          <input
             name="username"
             type="text"
             placeholder="Create username"
-            className="input w-full max-w-xs"
+            className="mt-5 input w-full max-w-xs"
             onChange={handleChange}
           />
           <input

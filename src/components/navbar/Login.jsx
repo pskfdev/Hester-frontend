@@ -28,7 +28,7 @@ function Login({ handleClose, handleRegis }) {
   };
 
   /* get wishlist to redux */
-  const fetchWishlist = (token) => {
+  /* const fetchWishlist = (token) => {
 
     listWishlist(token)
       .then(function (response) {
@@ -41,26 +41,25 @@ function Login({ handleClose, handleRegis }) {
       .catch((err) => {
         console.log("get wishlist fail!" + err);
       });
-  }
+  } */
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
 
     login(value)
-      .then(function (response) {
-        return response.json();
-      })
       .then(function (res) {
-        setLoading(false);
-        alert(" Login success user : " + res.response.username);
-        roleRedirect(res.response.role);
+        const { payload, token } = res.data
 
-        dispatch(signin(res.response));
-        localStorage.setItem("token", res.response.token);
+        setLoading(false);
+        alert(" Login success user : " + payload.username);
+        roleRedirect(payload.role);
+
+        dispatch(signin(payload));
+        localStorage.setItem("token", token);
 
         /* get wistlist */
-        fetchWishlist(res.response.token);
+        /* fetchWishlist(res.response.token); */
         handleClose();
       })
       .catch((err) => {

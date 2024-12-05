@@ -1,26 +1,37 @@
+import axios from "axios";
+
+export const createWishlists = async (token, productId) => {
+  return await axios.post(
+    `${import.meta.env.VITE_APP_API}/wishlist`,
+    { productId: productId },
+    {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
 export const listWishlist = async (token) => {
-  return await fetch(`${import.meta.env.VITE_APP_API}/wishlist/list.php`, {
-    method: "POST",
-    body: JSON.stringify({ token: token }),
-  })
+  return await axios.get(
+    `${import.meta.env.VITE_APP_API}/wishlist`,
+    {},
+    {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    }
+  );
 };
 
-export const createWishlists = async (id, user) => {
-  return await fetch(
-    `${import.meta.env.VITE_APP_API}/wishlist/create.php/?id=${id}`,
+export const deleteWishlists = async (token, wishlistId) => {
+  return await axios.delete(
+    `${import.meta.env.VITE_APP_API}/wishlist`,
+    { wishlistId: wishlistId },
     {
-      method: "POST",
-      body: JSON.stringify({ username: user }),
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
     }
-  )
-};
-
-export const deleteWishlists = async (id, user) => {
-  return await fetch(
-    `${import.meta.env.VITE_APP_API}/wishlist/delete.php/?id=${id}`,
-    {
-      method: "POST",
-      body: JSON.stringify({ username: user }),
-    }
-  )
+  );
 };

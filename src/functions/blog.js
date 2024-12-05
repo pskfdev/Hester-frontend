@@ -1,34 +1,21 @@
 import axios from "axios";
 
+export const createBlog = async (value) => {
+  return await axios.post(`${import.meta.env.VITE_APP_API}/blog`, value);
+};
+
 export const listBlog = async () => {
-  return await axios.get(`${import.meta.env.VITE_APP_API}/blog/list.php`);
+  return await axios.get(`${import.meta.env.VITE_APP_API}/blog`);
 };
 
 export const readBlog = async (id) => {
-  return await axios.get(
-    `${import.meta.env.VITE_APP_API}/blog/read.php/?id=${id}`
-  );
+  return await axios.get(`${import.meta.env.VITE_APP_API}/blog/${id}`);
 };
 
-export const createBlog = async (values) => {
-  return await fetch(`${import.meta.env.VITE_APP_API}/blog/create.php`, {
-    method: "POST",
-    body: JSON.stringify(values),
-  });
-};
-
-export const updateBlog = async (id, values) => {
-  return await fetch(
-    `${import.meta.env.VITE_APP_API}/blog/update.php/?id=${id}`,
-    {
-      method: "POST",
-      body: JSON.stringify(values),
-    }
-  );
+export const updateBlog = async (id, value) => {
+  return await axios.put(`${import.meta.env.VITE_APP_API}/blog/${id}`, value);
 };
 
 export const deleteBlog = async (id) => {
-  return await fetch(`${import.meta.env.VITE_APP_API}/blog/delete.php/?id=${id}`, {
-    method: "POST",
-  })
+  return await axios.delete(`${import.meta.env.VITE_APP_API}/blog/${id}`);
 };

@@ -1,24 +1,63 @@
 import axios from "axios";
 
-export const listUser = async () => {
+export const listUser = async (token) => {
   return await axios.get(
-    `${import.meta.env.VITE_APP_API}/users/list.php`
-  );
-};
-
-export const DeleteUser = async (id) => {
-  return await fetch(
-    `${import.meta.env.VITE_APP_API}/users/delete.php/?id=${id}`,
+    `${import.meta.env.VITE_APP_API}/user`,
+    {},
     {
-      method: "POST",
-      body: JSON.stringify({ id: id }),
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
     }
   );
 };
 
-export const changeRole = async (id, values) => {
-  return await fetch(`${import.meta.env.VITE_APP_API}/users/change-role.php/?id=${id}`, {
-    method: "POST",
-    body: JSON.stringify(values),
-  })
+export const readUser = async (token, id) => {
+  return await axios.get(
+    `${import.meta.env.VITE_APP_API}/user/${id}`,
+    {},
+    {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
+export const updateName = async (token, id, name) => {
+  return await axios.put(
+    `${import.meta.env.VITE_APP_API}/user/${id}`,
+    {
+      name: name,
+    },
+    {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
+export const DeleteUser = async (token, id) => {
+  return await axios.delete(
+    `${import.meta.env.VITE_APP_API}/user/${id}`,
+    {},
+    {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
+export const changePassword = async (token, id, newPassword) => {
+  return await axios.put(
+    `${import.meta.env.VITE_APP_API}/change-password/${id}`,
+    { newPassword: newPassword },
+    {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    }
+  );
 };

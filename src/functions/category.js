@@ -1,34 +1,21 @@
 import axios from "axios";
 
+export const createCategory = async (value) => {
+  return await axios.post(`${import.meta.env.VITE_APP_API}/category`, value);
+};
+
 export const listCategory = async () => {
-  return await axios.get(
-    `${import.meta.env.VITE_APP_API}/category/list.php`
-  );
+  return await axios.get(`${import.meta.env.VITE_APP_API}/category`);
 };
 
-export const createCategory = async (values) => {
-  return await fetch(`${import.meta.env.VITE_APP_API}/category/create.php`, {
-    method: "POST",
-    body: JSON.stringify(values),
-  });
+export const readCategory = async (id) => {
+  return await axios.get(`${import.meta.env.VITE_APP_API}/category/${id}`);
 };
 
-export const updateCategory = async (id, values) => {
-  return await fetch(
-    `${import.meta.env.VITE_APP_API}/category/update.php/?id=${id}`,
-    {
-      method: "POST",
-      body: JSON.stringify(values),
-    }
-  );
+export const updateCategory = async (id, value) => {
+  return await axios.put(`${import.meta.env.VITE_APP_API}/category/${id}`, value);
 };
 
 export const deleteCategory = async (id) => {
-  return await fetch(
-    `${import.meta.env.VITE_APP_API}/category/delete.php/?id=${id}`,
-    {
-      method: "POST",
-      body: JSON.stringify({ id: id }),
-    }
-  );
+  return await axios.delete(`${import.meta.env.VITE_APP_API}/category/${id}`);
 };
