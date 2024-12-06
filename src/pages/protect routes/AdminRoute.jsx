@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+
+//Components
 import LoadingtoRedirect from "./LoadingtoRedirect";
+
+//Functions
+import { currentAdmin  } from "../../functions/auth";
 
 function AdminRoute({ children }) {
   const [admin, setAdmin] = useState(false);
@@ -10,15 +14,9 @@ function AdminRoute({ children }) {
     /* check stor user && check user.token */
 
     if (token) {
-      fetch(`${import.meta.env.VITE_APP_API}/users/current-user.php`, {
-        method: "POST",
-        body: JSON.stringify({token:token}),
-      })
-        .then(function (response) {
-          return response.json();
-        })
-        .then(function (res) {
-          if (res.response.role == "admin") {
+      currentAdmin(token)
+        .then((res) => {
+          if (res.data.role == "admin") {
             setAdmin(true)
           } else {
             setAdmin(false)

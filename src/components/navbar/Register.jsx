@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+
+//Functions
 import { register } from "../../functions/auth";
 
 function Register({ handleClose, handleLogin }) {
@@ -16,7 +17,6 @@ function Register({ handleClose, handleLogin }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    /* console.log(value); */
 
     if (value.password !== value.password2) {
       alert("Password not match");

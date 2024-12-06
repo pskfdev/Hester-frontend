@@ -9,7 +9,9 @@ function RecommendMenu() {
   const fetchData = () => {
     listProduct()
       .then((res) => {
-        setData(res.data.response);
+        /* setData(res.data.response); */
+        console.log(res.data);
+        
       })
       .catch((err) => {
         console.log(err);
@@ -31,11 +33,11 @@ function RecommendMenu() {
         </p>
 
         <div className="mt-32 flex flex-col md:flex-row justify-center gap-5 px-10 md:px-0">
-          {data.slice(0, 3).map((item, idx) => (
+          {data?.slice(0, 3).map((item, idx) => (
             <div className="w-100" key={idx}>
               <img
-                src={`${import.meta.env.VITE_APP_IMAGE}${item.img}`}
-                alt={item.title}
+                src={`${import.meta.env.VITE_APP_IMAGE}${item?.img}`}
+                alt={item?.title}
                 style={{
                   width: "100%",
                   height: "400px",

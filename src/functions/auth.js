@@ -10,7 +10,7 @@ export const register = async (value) => {
 
 export const currentUser = async (token) => {
   return axios.post(
-    `${import.meta.env.VITE_API_URL}/current-user`,
+    `${import.meta.env.VITE_APP_API}/current-user`,
     {},
     {
       headers: {
@@ -22,7 +22,7 @@ export const currentUser = async (token) => {
 
 export const currentAdmin = (token) => {
   return axios.post(
-    `${import.meta.env.VITE_API_URL}/current-admin`,
+    `${import.meta.env.VITE_APP_API}/current-admin`,
     {},
     {
       headers: {

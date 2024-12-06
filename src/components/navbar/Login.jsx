@@ -48,7 +48,7 @@ function Login({ handleClose, handleRegis }) {
     setLoading(true);
 
     login(value)
-      .then(function (res) {
+      .then((res) => {
         const { payload, token } = res.data
 
         setLoading(false);

@@ -61,3 +61,15 @@ export const changePassword = async (token, id, newPassword) => {
     }
   );
 };
+
+export const changeRole = async (token, id, role) => {
+  return await axios.put(
+    `${import.meta.env.VITE_APP_API}/change-role/${id}`,
+    { role: role },
+    {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};

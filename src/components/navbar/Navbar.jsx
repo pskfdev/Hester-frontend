@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+
+//Components
 import Login from "./Login";
 import Register from "./Register";
 import {
@@ -8,10 +10,11 @@ import {
   FiChevronDown,
   FiHeart,
 } from "react-icons/fi";
+
+//Redux
 import { useSelector, useDispatch } from "react-redux";
-import { signin, logout } from "../../store/userSlice";
+import { logout } from "../../store/userSlice";
 import { clearProductId } from "../../store/wishlistSlice";
-import { currentUser } from "../../functions/auth";
 
 function Navbar() {
   const [login, setLogin] = useState(false);
@@ -59,26 +62,6 @@ function Navbar() {
     setRegister(false);
   };
 
-  /* ฟังก์ชั่นโหลดข้อมูล user //เพื่อเช็ค user ที่ใช้งานอยู่ในปัจจุบันโดยใช้ Token ในการเช็ค */
-  const fetchUser = () => {
-    if (idtoken) {
-      currentUser(idtoken)
-        .then(function (response) {
-          return response.json();
-        })
-        .then(function (res) {
-          dispatch(signin(res.response));
-        })
-        .catch((err) => {
-          console.log("fetchUser error!" + err);
-        });
-    }
-  };
-
-  useEffect(() => {
-    fetchUser();
-  }, [idtoken]);
-
   return (
     <nav
       className={`navbar z-40 py-10 px-10 lg:px-20 fixed top-0 ${
@@ -96,6 +79,7 @@ function Navbar() {
       </div>
 
       <div className="space-x-5">
+
         {/* humberger responsive */}
         <div className="dropdown lg:hidden">
           <label tabIndex={0} className="btn btn-ghost btn-circle">
@@ -121,7 +105,7 @@ function Navbar() {
               </NavLink>
             </li>
 
-            {idtoken && (
+            {user?.username && (
               <div className="flex">
                 <Link
                   to="/wishlist"
@@ -148,6 +132,7 @@ function Navbar() {
         </div>
         {/* END humberger responsive */}
 
+        {/* Logo */}
         <Link to="/" className="normal-case font-bold text-4xl">
           Hester
         </Link>
@@ -155,7 +140,7 @@ function Navbar() {
 
       {/* Login/Logout */}
       <div className="">
-        {user.username ? (
+        {user?.username ? (
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-link">
               {user.username}
@@ -188,7 +173,7 @@ function Navbar() {
         {/* END Login/Logout */}
 
         {/* Wishlist and Cart */}
-        {idtoken && (
+        {user?.username && (
           <div className="hidden lg:flex">
             <Link
               to="/wishlist"
