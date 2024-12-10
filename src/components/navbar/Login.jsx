@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+/* Redux */
 import { useDispatch } from "react-redux";
 import { signin } from "../../store/userSlice";
 import { addWishlist } from "../../store/wishlistSlice";
+/* Functions */
 import { listWishlist } from "../../functions/wishlist";
 import { login } from "../../functions/auth";
 

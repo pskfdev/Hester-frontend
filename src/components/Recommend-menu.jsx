@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Route, Link } from "react-router-dom";
-import { listProduct } from "../functions/product";
 import bgProduct from "../assets/background/bg-product.jpg";
+//Functions
+import { listProduct } from "../functions/product";
 
 function RecommendMenu() {
   const [data, setData] = useState([]);
@@ -9,9 +10,7 @@ function RecommendMenu() {
   const fetchData = () => {
     listProduct()
       .then((res) => {
-        /* setData(res.data.response); */
-        console.log(res.data);
-        
+        setData(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -36,12 +35,13 @@ function RecommendMenu() {
           {data?.slice(0, 3).map((item, idx) => (
             <div className="w-100" key={idx}>
               <img
-                src={`${import.meta.env.VITE_APP_IMAGE}${item?.img}`}
+                src={`${import.meta.env.VITE_APP_IMAGE}${item?.image}`}
                 alt={item?.title}
                 style={{
                   width: "100%",
                   height: "400px",
                   objectFit: "cover",
+                  borderRadius: "20px"
                 }}
               />
             </div>

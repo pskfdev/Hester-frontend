@@ -22,7 +22,7 @@ function Register({ handleClose, handleLogin }) {
       alert("Password not match");
     } else {
       register(value)
-        .then(function (res) {
+        .then((res) => {
           alert(res.data.message);
         })
         .catch((err) => {

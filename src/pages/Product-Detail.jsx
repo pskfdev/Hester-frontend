@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Link, useParams } from "react-router-dom";
+//Functions
 import { readProduct } from "../functions/product";
+//Components
 import Vegetable from "../components/product-category/Vegetable";
 import Fruit from "../components/product-category/Fruit";
 import ButtonWishlist from "../components/Button-wishlist";
@@ -60,7 +61,7 @@ function ProductDetail() {
 
     readProduct(id)
       .then((res) => {
-        setData(res.data.response);
+        setData(res.data);
         setLoading(false);
       })
       .catch((err) => {
@@ -68,6 +69,7 @@ function ProductDetail() {
         console.log(err);
       });
   };
+  
 
   useEffect(() => {
     fetchData();
@@ -79,30 +81,31 @@ function ProductDetail() {
       <div className="my-48 container mx-auto px-5 md:px-0">
         <div className="my-10 text-lg font-bold text-slate-500">
           <Link to="/shop">Shop</Link> <span>{">"}</span>{" "}
-          <span className="text-black">{data.title}</span>
+          <span className="text-black">{data?.title}</span>
         </div>
 
-        <div className="w-100 h-3/4 flex flex-col lg:flex-row lg:space-x-4 items-center">
+        <div className="w-100 h-3/4 flex flex-col lg:flex-row lg:space-x-10 items-center">
           <div className="w-full">
             <img
-              src={`${import.meta.env.VITE_APP_IMAGE}${data.img}`}
-              alt={data.title}
+              src={`${import.meta.env.VITE_APP_IMAGE}${data?.image}`}
+              alt={data?.title}
               className="mx-auto"
               style={{
                 width: "100%",
-                height: "700px",
+                height: "500px",
                 objectFit: "cover",
+                borderRadius: "20px"
               }}
             />
           </div>
 
           <div className="w-100 lg:w-9/12 space-y-8 mt-10 lg:mt-0">
             <div>
-              <p className="text-4xl font-bold">{data.title}</p>
+              <p className="text-4xl font-bold uppercase">{data?.title}</p>
               <br />
-              <p className="text-xl font-bold">${data.price}</p>
+              <p className="text-xl font-bold">${data?.price}</p>
               <br />
-              <p className="text-xl">{data.description}</p>
+              <p className="text-xl">{data?.description}</p>
             </div>
 
             <div>
@@ -142,7 +145,7 @@ function ProductDetail() {
 
         <div className="my-40">
           <p className="text-4xl font-bold">You Might Also Like</p>
-          {data.category == "vegetable" ? <Vegetable /> : <Fruit />}
+          {data?.category?.name == "vegetable" ? <Vegetable /> : <Fruit />}
         </div>
       </div>
     </>

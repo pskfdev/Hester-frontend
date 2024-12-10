@@ -22,11 +22,8 @@ function NavbarAdmin() {
   const fetchUser = () => {
     if (idtoken) {
       currentUser(idtoken)
-        .then(function (response) {
-          return response.json();
-        })
         .then(function (res) {
-          dispatch(signin(res.response));
+          dispatch(signin(res.data));
         })
         .catch((err) => {
           console.log("fetchUser error!" + err);
@@ -70,10 +67,10 @@ function NavbarAdmin() {
       </div>
 
       <div className="">
-        {user.username && (
+        {user?.username && (
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-link">
-              {user.username}
+              {user?.username}
               <span>
                 <FiChevronDown />
               </span>

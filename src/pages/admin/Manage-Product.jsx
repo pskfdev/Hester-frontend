@@ -13,11 +13,8 @@ function ManageProduct() {
     if (window.confirm("Are you sure delete!")) {
 
       deleteProduct(id)
-        .then(function (response) {
-          return response.json();
-        })
-        .then(function (res) {
-          alert("Remove Product " + res.response.title + " Success!!!");
+        .then((res) => {
+          alert("Remove Product " + res.data.title + " Success!!!");
           fetchData();
         })
         .catch((err) => {
@@ -31,7 +28,8 @@ function ManageProduct() {
 
     listProduct()
       .then((res) => {
-        setData(res.data.response);
+        setData(res.data);
+        
         setLoading(false);
       })
       .catch((err) => {
@@ -82,17 +80,18 @@ function ManageProduct() {
                 <tr key={item.id} className="text-center">
                   <td>{idx}</td>
                   <td>{item.title}</td>
-                  <td>{item.category}</td>
+                  <td>{item.category.name}</td>
                   <td>{item.price}</td>
                   <td>
                     <img
-                      src={`${import.meta.env.VITE_APP_IMAGE}${item.img}`}
+                      src={`${import.meta.env.VITE_APP_IMAGE}${item.image}`}
                       alt={item.title}
                       style={{
                         width: "100px",
                         height: "100px",
                         objectFit: "cover",
                         margin: "0 auto",
+                        borderRadius: "20px"
                       }}
                     />
                   </td>

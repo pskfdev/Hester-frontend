@@ -1,26 +1,20 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { MdDeleteForever, MdAutorenew } from "react-icons/md";
+//Functions
 import { listUser, DeleteUser, changeRole } from "../../functions/user";
-import { Link, useLocation, Outlet } from "react-router-dom";
 
 function ManageUser() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const roleData = ["admin", "user"];
+  const token = localStorage.token;
 
-  const handleChangeRole = (e, id) => {
-    let values = {
-      id: id,
-      role: e,
-    };
+  const handleChangeRole = (role, id) => {
 
-    changeRole(id, values)
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (res) {
-        alert(`Change role ${res.response.role} success!`);
+    changeRole(token, id, role)
+      .then((res) => {
+        alert(res.data.message);
+        
         fetchData();
       })
       .catch((err) => {
@@ -31,17 +25,14 @@ function ManageUser() {
   const handleRemove = (id) => {
     if (window.confirm("Are you sure delete!")) {
 
-      DeleteUser(id)
-        .then(function (response) {
-          return response.json();
-        })
-        .then(function (res) {
-          alert("Remove user " + res.response.username + " Success!!!");
+      DeleteUser(token, id)
+        .then((res) => {
+          alert("Remove user " + res.data.username + " Success!");
           fetchData();
         })
         .catch((err) => {
           console.log(err);
-          alert("Error!! Remove Product");
+          alert("Remove Product fail!");
         });
     }
   };
@@ -49,9 +40,9 @@ function ManageUser() {
   const fetchData = () => {
     setLoading(true);
 
-    listUser()
+    listUser(token)
       .then((res) => {
-        setData(res.data.response);
+        setData(res.data);
         setLoading(false);
       })
       .catch((err) => {
@@ -85,9 +76,9 @@ function ManageUser() {
           <thead className="">
             <tr>
               <th>Number</th>
+              <th>Name</th>
               <th>Username</th>
               <th>Role</th>
-              <th>date / time</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -96,11 +87,12 @@ function ManageUser() {
               data.map((item, idx) => (
                 <tr key={item.id}>
                   <td>{idx}</td>
-                  <td>{item.username}</td>
+                  <td>{item?.name}</td>
+                  <td>{item?.username}</td>
                   <td>
                     <select
                       className="select  max-w-xs"
-                      value={item.role}
+                      value={item?.role}
                       onChange={(e) =>
                         handleChangeRole(e.target.value, item.id)
                       }
@@ -112,8 +104,7 @@ function ManageUser() {
                       ))}
                     </select>
                   </td>
-                  <td>{item.created}</td>
-                  <td className="">
+                  <td>
                     <MdDeleteForever
                       className="text-red-600"
                       role="button"

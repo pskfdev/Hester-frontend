@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import { updateCategory } from "../../../functions/category";
+import { useNavigate, useParams } from "react-router-dom";
+//Functions
+import { readCategory, updateCategory } from "../../../functions/category";
 
 function Editcategory() {
   const navigate = useNavigate();
@@ -14,21 +15,32 @@ function Editcategory() {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
+  const fetchData = () => {
+    readCategory(id)
+    .then((res) => {
+      setValues(res.data)
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
     
     updateCategory(id, values)
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (res) {
-        alert("Update category " + res.response.category + " Success!!!");
+      .then((res) => {
+        alert("Update category " + res.data.name + " Success!!!");
         navigate("/admin/category")
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <div className="modal modal-open">
@@ -46,6 +58,7 @@ function Editcategory() {
               required
               name="name"
               type="text"
+              value={values?.name}
               placeholder="Name category"
               className="input w-full max-w-xs input-bordered"
               onChange={handleChange}

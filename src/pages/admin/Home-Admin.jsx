@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import NavbarAdmin from "../../components/admin/navbar/Navbar-Admin";
-import MenuAdmin from "../../components/admin/navbar/Menu-Admin";
 import { Link, useLocation, Outlet } from "react-router-dom";
 import { FiUsers, FiBox, FiBookmark } from "react-icons/fi";
+//Components
+import NavbarAdmin from "../../components/admin/navbar/Navbar-Admin";
+import MenuAdmin from "../../components/admin/navbar/Menu-Admin";
+//Functions
+import { listUser } from "../../functions/user";
+import { listProduct } from "../../functions/product";
+import { listBlog } from "../../functions/blog";
 
 function HomeAdmin() {
   let location = useLocation();
   let pathName = location.pathname;
+  const token = localStorage.token;
 
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState([]);
@@ -15,10 +20,9 @@ function HomeAdmin() {
   const [blogs, setBlogs] = useState([]);
 
   const fetchUsers = () => {
-    axios
-      .get(`${import.meta.env.VITE_APP_API}/users/list.php`)
+    listUser(token)
       .then((res) => {
-        setUsers(res.data.response);
+        setUsers(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -26,10 +30,9 @@ function HomeAdmin() {
   };
 
   const fetchProducts = () => {
-    axios
-      .get(`${import.meta.env.VITE_APP_API}/products/list.php`)
+    listProduct()
       .then((res) => {
-        setProducts(res.data.response);
+        setProducts(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -39,10 +42,9 @@ function HomeAdmin() {
   const fetchBlogs = () => {
     setLoading(true);
 
-    axios
-      .get(`${import.meta.env.VITE_APP_API}/blog/list.php`)
+    listBlog()
       .then((res) => {
-        setBlogs(res.data.response);
+        setBlogs(res.data);
         setLoading(false);
       })
       .catch((err) => {
@@ -127,7 +129,7 @@ function HomeAdmin() {
                             <tr key={item.id} className="hover">
                               <td>{idx}</td>
                               <td>{item.title}</td>
-                              <td>{item.category}</td>
+                              <td>{item.category.name}</td>
                               <td>{`$ ${item.price}`}</td>
                             </tr>
                           ))

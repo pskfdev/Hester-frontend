@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { MdDeleteForever, MdModeEdit, MdAutorenew } from "react-icons/md";
 import { Link, Outlet, useLocation } from "react-router-dom";
+//Functions
 import { listCategory, deleteCategory } from "../../functions/category";
 
 function ManageCategory() {
@@ -13,11 +14,8 @@ function ManageCategory() {
     if (window.confirm("Are you sure delete!")) {
 
       deleteCategory(id)
-        .then(function (response) {
-          return response.json();
-        })
-        .then(function (res) {
-          alert("Remove category " + res.response.name + " Success!!!");
+        .then((res) => {
+          alert("Remove category " + res.data.name + " Success!!!");
           fetchData();
         })
         .catch((err) => {
@@ -31,7 +29,7 @@ function ManageCategory() {
 
     listCategory()
       .then((res) => {
-        setData(res.data.response);
+        setData(res.data);
         setLoading(false);
       })
       .catch((err) => {
@@ -81,7 +79,7 @@ function ManageCategory() {
                 <tr key={item.id}>
                   <td>{idx}</td>
                   <td>{item.name}</td>
-                  <td>{item.created}</td>
+                  <td>{item.createdAt}</td>
                   <td className="flex space-x-3">
                     <MdDeleteForever
                       className="text-red-600"

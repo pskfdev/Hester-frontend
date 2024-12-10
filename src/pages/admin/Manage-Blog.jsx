@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { MdDeleteForever, MdModeEdit, MdAutorenew } from "react-icons/md";
 import { Link, useLocation, Outlet } from "react-router-dom";
+//Functions
 import { listBlog, deleteBlog } from "../../functions/blog";
 
 function ManageBlog() {
@@ -11,13 +12,9 @@ function ManageBlog() {
 
   const handleRemove = (id) => {
     if (window.confirm("Are you sure delete!")) {
-
       deleteBlog(id)
-        .then(function (response) {
-          return response.json();
-        })
-        .then(function (res) {
-          alert("Remove Blog " + res.response.name + " Success!!!");
+        .then((res) => {
+          alert("Remove Blog " + res.data.name + " Success!!!");
           fetchData();
         })
         .catch((err) => {
@@ -31,7 +28,8 @@ function ManageBlog() {
 
     listBlog()
       .then((res) => {
-        setData(res.data.response);
+        setData(res.data);
+
         setLoading(false);
       })
       .catch((err) => {
@@ -51,7 +49,9 @@ function ManageBlog() {
 
   return (
     <div className="w-full container mx-auto py-20 px-5">
-      <h3 className="text-4xl text-center font-bold text-gray-500 underline underline-offset-4">Manage blog</h3>
+      <h3 className="text-4xl text-center font-bold text-gray-500 underline underline-offset-4">
+        Manage blog
+      </h3>
 
       {/* For Loading */}
       {loading && (
@@ -74,6 +74,7 @@ function ManageBlog() {
           <thead>
             <tr>
               <th>Number</th>
+              <th>Image</th>
               <th>Name</th>
               <th>Description</th>
               <th>Action</th>
@@ -84,6 +85,13 @@ function ManageBlog() {
               data.map((item, idx) => (
                 <tr key={item.id}>
                   <td>{idx}</td>
+                  <td>
+                    <img
+                      src={`${import.meta.env.VITE_APP_IMAGE}${item?.image}`}
+                      alt={item?.name}
+                      className="w-10 h-10 rounded-md"
+                    />
+                  </td>
                   <td>{item.name}</td>
                   <td>{item.description.slice(0, 40) + " ...."}</td>
                   <td className="flex space-x-3">

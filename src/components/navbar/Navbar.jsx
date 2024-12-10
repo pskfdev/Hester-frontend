@@ -23,8 +23,6 @@ function Navbar() {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
-  const idtoken = localStorage.token;
-
   const user = useSelector((state) => state.userStore.user);
 
   let cart = JSON.parse(localStorage.getItem("cart"));

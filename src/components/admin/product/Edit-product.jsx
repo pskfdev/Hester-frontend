@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+//Functions
 import { readProduct, updateProduct } from "../../../functions/product";
 import { listCategory } from "../../../functions/category";
 
 function Editproduct() {
   const navigate = useNavigate();
   let { id } = useParams();
-  const [data, setData] = useState([]);
+
   const [category, setCategory] = useState([]);
   const [values, setValues] = useState({
     title: "",
-    category: "",
+    categoryId: "",
     price: "",
     description: "",
-    img: "",
-    imgNew: "",
+    image: "",
+    imageOld: "",
   });
 
   const handleChange = (e) => {
@@ -24,32 +24,33 @@ function Editproduct() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    /* สำหรับการ upload file ต้องใช้ FormData() ในการส่ง */
+    /* การบันทึกไฟล์รูปภาพ(multer) จะจับแค่ property image เท่านั้น */
     const formData = new FormData();
     formData.append("title", values.title);
     formData.append("description", values.description);
-    formData.append("category", values.category);
+    formData.append("categoryId", values.categoryId);
     formData.append("price", values.price);
-    formData.append("img", values.img);
-    formData.append("imgNew", values.imgNew);
+    formData.append("image", values.image);
+    formData.append("imageOld", values.imageOld);
 
     updateProduct(id, formData)
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (res) {
-        alert("Update product " + res.response.title + " Success!!!");
+      .then((res) => {
+        alert("Update product " + res.data.title + " Success!");
         navigate("/admin/product");
       })
       .catch((err) => {
         console.log(err);
+        alert("Update product fail!");
       });
   };
 
   const fetchData = () => {
     readProduct(id)
       .then((res) => {
-        setValues({ ...values, img: res.data.response.img });
-        setData(res.data.response);
+        setValues({ ...res.data, imageOld: res.data.image });
+        /* รับข้อมูลเก่ามาใส่ไว้ใน values พร้อมกับเก็บข้อมูลรูปเก่า */
       })
       .catch((err) => {
         console.log(err);
@@ -59,7 +60,7 @@ function Editproduct() {
   const fetchCategory = () => {
     listCategory()
       .then((res) => {
-        setCategory(res.data.response);
+        setCategory(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -87,6 +88,7 @@ function Editproduct() {
               required
               name="title"
               type="text"
+              value={values?.title}
               placeholder="title"
               className="input w-full max-w-xs input-bordered"
               onChange={handleChange}
@@ -97,15 +99,16 @@ function Editproduct() {
               required
               className="mt-5 select w-full max-w-xs select-bordered"
               onChange={(e) =>
-                setValues({ ...values, category: e.target.value })
+                setValues({ ...values, categoryId: e.target.value })
               }
             >
               <option value="">--please select category--</option>
-              {category.map((item, index) => (
-                <option value={item.name} key={index}>
-                  {item.name}
-                </option>
-              ))}
+              {category &&
+                category.map((item, index) => (
+                  <option value={item?.id} key={index}>
+                    {item?.name}
+                  </option>
+                ))}
             </select>
           </div>
           <div>
@@ -113,6 +116,7 @@ function Editproduct() {
               required
               name="price"
               type="number"
+              value={values?.price}
               placeholder="Price"
               className="mt-5 input w-full max-w-xs input-bordered"
               onChange={handleChange}
@@ -123,18 +127,27 @@ function Editproduct() {
               required
               name="description"
               type="text"
+              value={values?.description}
               placeholder="Description"
               className="mt-5 textarea textarea-bordered w-full max-w-xs"
               onChange={handleChange}
             />
           </div>
-          <div>
+          <div className="w-full mt-5">
+            {values?.imageOld && (
+              <div className="w-full p-2 mx-auto bg-slate-100 -mb-1 rounded-t-md max-w-xs">
+                <img
+                  src={`${import.meta.env.VITE_APP_IMAGE}${values?.imageOld}`}
+                  alt={values?.title}
+                  className="w-10 h-10 rounded-md"
+                />
+              </div>
+            )}
             <input
-              /* name="img" */
               type="file"
               className="mt-5 file-input w-full max-w-xs input-bordered"
               onChange={(e) =>
-                setValues({ ...values, imgNew: e.target.files[0] })
+                setValues({ ...values, image: e.target.files[0] })
               }
             />
           </div>

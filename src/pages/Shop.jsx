@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+//Functions
 import { listCategory } from "../functions/category";
 import { listProduct } from "../functions/product";
 
@@ -12,7 +13,7 @@ function Shop() {
 
   const SelectCategory = (name) => {
     const updateItems = data.filter((item) => {
-      return item.category == name;
+      return item.category.name == name;
     });
     setFilter(updateItems);
     setActiveMenu(name);
@@ -21,7 +22,7 @@ function Shop() {
   const fetchCategory = () => {
     listCategory()
       .then((res) => {
-        setCategory(res.data.response);
+        setCategory(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -33,8 +34,8 @@ function Shop() {
 
     listProduct()
       .then((res) => {
-        setData(res.data.response);
-        setFilter(res.data.response);
+        setData(res.data);
+        setFilter(res.data);
         setLoading(false);
       })
       .catch((err) => {
@@ -82,17 +83,18 @@ function Shop() {
             filter.map((item, idx) => (
               <Link to={`/shop/${item.id}`} key={item.id}>
                 <img
-                  src={`${import.meta.env.VITE_APP_IMAGE}/${item.img}`}
-                  alt={item.title}
+                  src={`${import.meta.env.VITE_APP_IMAGE}/${item?.image}`}
+                  alt={item?.title}
                   style={{
                     width: "100%",
-                    height: "500px",
+                    height: "400px",
                     objectFit: "cover",
+                    borderRadius: "20px"
                   }}
                 />
                 <div className="text-center mt-5">
-                  <h3 className="text-3xl">{item.title}</h3>
-                  <p className="mt-3 text-lg">${item.price}</p>
+                  <h3 className="text-3xl">{item?.title}</h3>
+                  <p className="mt-3 text-lg">${item?.price}</p>
                 </div>
               </Link>
             ))

@@ -7,9 +7,9 @@ function Createproduct() {
   const initialState = {
     title: "",
     description: "",
-    category: "",
+    categoryId: "",
     price: "",
-    img: "",
+    image: "",
   };
 
   const navigate = useNavigate();
@@ -22,37 +22,35 @@ function Createproduct() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    /* console.log(values) */
+    
     const formData = new FormData(); //สร้าง formData เพื่อส่งไปหลังบ้าน
     formData.append("title", values.title);
     formData.append("description", values.description);
-    formData.append("category", values.category);
+    formData.append("categoryId", values.categoryId);
     formData.append("price", values.price);
-    formData.append("img", values.img);
+    formData.append("image", values.image);
 
     createProduct(formData)
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (res) {
-        alert(`Add product ${res.response.title} success!`);
+      .then((res) => {
+        alert(`Add product ${res.data.title} success!`);
+        navigate("/admin/product")
       })
       .catch((err) => {
         console.log(err);
+        alert(`Add product fail!`);
       });
-    navigate("/admin/product");
+    
   };
 
   const fetchCategory = () => {
     listCategory()
       .then((res) => {
-        setCategory(res.data.response);
+        setCategory(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
   };
-
 
   useEffect(() => {
     fetchCategory();
@@ -84,12 +82,12 @@ function Createproduct() {
               required
               className="mt-5 select w-full max-w-xs select-bordered"
               onChange={(e) =>
-                setValues({ ...values, category: e.target.value })
+                setValues({ ...values, categoryId: e.target.value })
               }
             >
               <option value="">--please select category--</option>
               {category.map((item, index) => (
-                <option value={item.name} key={index}>
+                <option value={item.id} key={index}>
                   {item.name}
                 </option>
               ))}
@@ -117,11 +115,11 @@ function Createproduct() {
           </div>
           <div>
             <input
-              required
-              /* name="img" */
               type="file"
               className="mt-5 file-input w-full max-w-xs input-bordered"
-              onChange={(e) => setValues({ ...values, img: e.target.files[0] })}
+              onChange={(e) =>
+                setValues({ ...values, image: e.target.files[0] })
+              }
             />
           </div>
 

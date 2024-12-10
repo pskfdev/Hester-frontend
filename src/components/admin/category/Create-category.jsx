@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+///Functions
 import { createCategory } from "../../../functions/category";
 
 function Createcategory() {
@@ -12,11 +13,8 @@ function Createcategory() {
     e.preventDefault();
     
     createCategory(values)
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (res) {
-        alert("Insert category " + res.response.category + " Success!!!");
+      .then((res) => {
+        alert("Insert category " + res.data.name + " Success!!!");
         navigate("/admin/category")
       })
       .catch((err) => {
