@@ -23,7 +23,8 @@ function Navbar() {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.userStore.user);
+  const { username, role, wishlist } = useSelector((state) => state.userStore.user);
+  
 
   let cart = JSON.parse(localStorage.getItem("cart"));
   let location = useLocation();
@@ -103,7 +104,7 @@ function Navbar() {
               </NavLink>
             </li>
 
-            {user?.username && (
+            {username && (
               <div className="flex">
                 <Link
                   to="/wishlist"
@@ -138,10 +139,10 @@ function Navbar() {
 
       {/* Login/Logout */}
       <div className="">
-        {user?.username ? (
+        {username ? (
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-link">
-              {user.username}
+              {username}
               <span>
                 <FiChevronDown />
               </span>
@@ -171,7 +172,7 @@ function Navbar() {
         {/* END Login/Logout */}
 
         {/* Wishlist and Cart */}
-        {user?.username && (
+        {username && (
           <div className="hidden lg:flex">
             <Link
               to="/wishlist"

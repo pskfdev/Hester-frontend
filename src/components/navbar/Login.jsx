@@ -58,6 +58,7 @@ function Login({ handleClose, handleRegis }) {
         roleRedirect(payload.role);
 
         dispatch(signin(payload));
+        dispatch(addWishlist(payload.wishlists));
         localStorage.setItem("token", token);
 
         /* get wistlist */

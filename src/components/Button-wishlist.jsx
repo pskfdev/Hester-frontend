@@ -8,16 +8,16 @@ import { createWishlists, deleteWishlists } from "../functions/wishlist";
 function ButtonWishlist() {
   const [like, setLike] = useState(false);
   
-  const userStore = useSelector((state) => state.userStore.user)
-  const wishlistStore = useSelector((state) => state.wishlistStore)
+  const { username, role, wishlist } = useSelector((state) => state.userStore.user)
+  /* const wishlistStore = useSelector((state) => state.wishlistStore) */
   const dispatch = useDispatch();
   let { id } = useParams();
   const idtoken = localStorage.token;
 
 
   const checkLike = () => {
-    if (wishlistStore.product_id) {
-      const found = wishlistStore.product_id.includes(id);
+    if (wishlist) {
+      const found = wishlist.includes(id);
 
       if (found) {
         setLike(true);
@@ -31,16 +31,14 @@ function ButtonWishlist() {
 
   const createWishlist = () => {
     if (!idtoken) {
-      return alert("Please log in.")
+      return alert("Please login.")
     }
 
     setLike(true)
-    createWishlists(id, userStore.username)
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (res) {
-        dispatch(addWishlist(res.response.product_id));
+    createWishlists(idtoken, id)
+      .then((res) => {
+        /* เพิ่ม wishlist ใหม่เข้าไปใน obj เดิม แล้วค่อย dispatch */
+        /* dispatch(addWishlist(res.data.id)); */
       })
       .catch((err) => {
         console.log(err);

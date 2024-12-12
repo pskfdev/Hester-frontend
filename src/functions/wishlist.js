@@ -15,7 +15,6 @@ export const createWishlists = async (token, productId) => {
 export const listWishlist = async (token) => {
   return await axios.get(
     `${import.meta.env.VITE_APP_API}/wishlist`,
-    {},
     {
       headers: {
         authorization: `Bearer ${token}`,
