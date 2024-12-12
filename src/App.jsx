@@ -1,13 +1,10 @@
 import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
-
 //Components
 import Navbar from "./components/navbar/Navbar";
 import Footer from "./components/Footer";
-
 //Functions
 import { currentUser } from "./functions/auth";
-
 //Redux
 import { useDispatch } from "react-redux";
 import { signin } from "./store/userSlice";

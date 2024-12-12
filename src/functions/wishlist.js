@@ -25,8 +25,7 @@ export const listWishlist = async (token) => {
 
 export const deleteWishlists = async (token, wishlistId) => {
   return await axios.delete(
-    `${import.meta.env.VITE_APP_API}/wishlist`,
-    { wishlistId: wishlistId },
+    `${import.meta.env.VITE_APP_API}/wishlist/${wishlistId}`,
     {
       headers: {
         authorization: `Bearer ${token}`,

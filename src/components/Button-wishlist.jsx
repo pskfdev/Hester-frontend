@@ -8,18 +8,18 @@ import { createWishlists, deleteWishlists } from "../functions/wishlist";
 function ButtonWishlist() {
   const [like, setLike] = useState(false);
   
-  const { username, role, wishlist } = useSelector((state) => state.userStore.user)
-  /* const wishlistStore = useSelector((state) => state.wishlistStore) */
+  const { username, role } = useSelector((state) => state.userStore.user)
+  const { wishlist } = useSelector((state) => state.wishlistStore)
   const dispatch = useDispatch();
   let { id } = useParams();
   const idtoken = localStorage.token;
-
+  
 
   const checkLike = () => {
     if (wishlist) {
-      const found = wishlist.includes(id);
+      const found = wishlist?.filter((item) => item.productId == id)
 
-      if (found) {
+      if (found.length != 0) {
         setLike(true);
       } else {
         setLike(false);
@@ -29,6 +29,7 @@ function ButtonWishlist() {
     }
   };
 
+  
   const createWishlist = () => {
     if (!idtoken) {
       return alert("Please login.")
@@ -38,7 +39,7 @@ function ButtonWishlist() {
     createWishlists(idtoken, id)
       .then((res) => {
         /* เพิ่ม wishlist ใหม่เข้าไปใน obj เดิม แล้วค่อย dispatch */
-        /* dispatch(addWishlist(res.data.id)); */
+        dispatch(addWishlist(res.data));
       })
       .catch((err) => {
         console.log(err);
@@ -47,14 +48,12 @@ function ButtonWishlist() {
 
   const deleteWishlist = () => {
     setLike(false)
-    const oldProductId = wishlistStore.product_id
+    const allWishlist = wishlist /* wishlist ทั้งหมดใน Redux */
+    const productRemove = allWishlist.filter((item) => item.productId == id) /* wishlist ที่ต้องการลบ [{...}] */
 
-    deleteWishlists(id, userStore.username)
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (res) {
-        const result = oldProductId.filter(id => id !== res.response.product_id);
+    deleteWishlists(idtoken, productRemove[0].id)
+      .then((res) => {
+        const result = allWishlist.filter(item => item.id !== res.data.id);
         dispatch(removeWistlist(result));
       })
       .catch((err) => {
@@ -64,7 +63,7 @@ function ButtonWishlist() {
 
   useEffect(() => {
     checkLike();
-  }, [id]);
+  }, [id, wishlist]);
 
   return (
     <div className="flex items-center">
