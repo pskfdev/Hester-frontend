@@ -8,7 +8,8 @@ import { currentUser } from "./functions/auth";
 //Redux
 import { useDispatch } from "react-redux";
 import { signin } from "./store/userSlice";
-import { addWishlist } from "./store/wishlistSlice";
+import { updateWishlist } from "./store/wishlistSlice";
+
 
 function App() {
 
@@ -21,7 +22,7 @@ function App() {
       currentUser(token)
         .then((res) => {
           dispatch(signin(res.data));
-          dispatch(addWishlist(res.data.wishlists));
+          dispatch(updateWishlist(res.data.wishlists));
         })
         .catch((err) => {
           console.log("fetch user error!" + err);

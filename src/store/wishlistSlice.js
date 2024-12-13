@@ -15,17 +15,20 @@ export const wishlistSlice = createSlice({
   reducers: {
     addWishlist: (state, action) => {
       state.wishlist  = [...state.wishlist, action.payload];
-      /* state.wishlist = action.payload; */
     },
     removeWistlist: (state, action) => {
       state.wishlist = action.payload
     },
     clearProductId: (state) => {
       state.wishlist = []
+    },
+    /* ใช้สำหรับดึงข้อมูลล่าสุด เมื่อมีการรีเฟรช */
+    updateWishlist: (state, action) => {
+      state.wishlist = action.payload;
     }
   },
 });
 
-export const { addWishlist, removeWistlist, clearProductId } = wishlistSlice.actions
+export const { addWishlist, removeWistlist, clearProductId, updateWishlist } = wishlistSlice.actions
 export default wishlistSlice.reducer;
 
