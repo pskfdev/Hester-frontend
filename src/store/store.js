@@ -1,11 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
+/* Store */
 import wishlistSlice from "./wishlistSlice";
+import cartSlice from "./cartSlice";
 import userSlice from "./userSlice";
+//Function
 import { saveState } from "./function/util";
 
 export const store = configureStore({
   reducer: {
     wishlistStore: wishlistSlice,
+    cartStore: cartSlice,
     userStore: userSlice
   },
 });

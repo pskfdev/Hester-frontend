@@ -9,12 +9,12 @@ import { currentUser } from "./functions/auth";
 import { useDispatch } from "react-redux";
 import { signin } from "./store/userSlice";
 import { updateWishlist } from "./store/wishlistSlice";
+import { updateCart } from "./store/cartSlice";
 
 
 function App() {
 
   const token = localStorage.token;
-  
   const dispatch = useDispatch();
 
   const checkUser = () => {
@@ -22,6 +22,7 @@ function App() {
       currentUser(token)
         .then((res) => {
           dispatch(signin(res.data));
+          dispatch(updateCart(res.data.cart));
           dispatch(updateWishlist(res.data.wishlists));
         })
         .catch((err) => {

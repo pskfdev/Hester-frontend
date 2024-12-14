@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const addCart = async (token, value) => {
+export const createCart = async (token, value) => {
   return await axios.post(`${import.meta.env.VITE_APP_API}/cart`, value, {
     headers: {
       authorization: `Bearer ${token}`,
@@ -24,7 +24,7 @@ export const readCart = async (token, cartId) => {
   });
 };
 
-export const updateCart = async (token, value) => {
+export const editCart = async (token, value) => {
   return await axios.put(`${import.meta.env.VITE_APP_API}/cart`, value, {
     headers: {
       authorization: `Bearer ${token}`,

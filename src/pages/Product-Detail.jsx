@@ -2,19 +2,26 @@ import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 //Functions
 import { readProduct } from "../functions/product";
+import { createCart, editCart } from "../functions/cart";
 //Components
 import Vegetable from "../components/product-category/Vegetable";
 import Fruit from "../components/product-category/Fruit";
 import ButtonWishlist from "../components/Button-wishlist";
+//Redux
+import { useSelector, useDispatch } from "react-redux";
+import { addCart, updateCart } from "../store/cartSlice";
 
 function ProductDetail() {
   let { id } = useParams();
   const [data, setData] = useState([]);
+
   const [loading, setLoading] = useState(false);
   const idtoken = localStorage.token;
+  /* Redux */
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cartStore.cart); /* [] */
 
   /* for button Quantity and button add cart */
-  const [disabled, setDisabled] = useState(false);
   const [count, setCount] = useState(1);
 
   const decrement = () => {
@@ -27,33 +34,53 @@ function ProductDetail() {
     setCount(count + 1);
   };
 
-  const addCart = () => {
-    setDisabled(true);
-
-    let cart = [];
-    if (localStorage.getItem("cart")) {
-      cart = JSON.parse(localStorage.getItem("cart"));
-
-      const found = cart.find((el) => el.id == id);
-      if (found) {
-        found.count += count;
-      } else {
-        cart.push({
-          ...data,
-          count: count,
+  const addCarts = () => {
+    /* ถ้ายังไม่มีข้อมูลใน cart */
+    if (cart.length == 0) {
+      createCart(idtoken, { productId: id, quantity: count, price: data.price })
+        .then((res) => {
+          dispatch(addCart(res.data));
+        })
+        .catch((err) => {
+          console.log("Create cart fail!" + err);
         });
-      }
-    } else {
-      cart.push({
-        ...data,
-        count: count,
-      });
+      return;
     }
 
-    localStorage.setItem("cart", JSON.stringify(cart));
-    setTimeout(() => {
-      setDisabled(false);
-    }, 1000);
+    /* ถ้ามี product ใน cart ให้เข้า function editCart */
+    if (cart.filter((item) => item.productId == id).length > 0) {
+      
+      /* ดึง cart จาก redux เพื่อเอา id cart */
+      const found = cart.filter((item) => item.productId == id);
+
+      editCart(idtoken, {
+        cartId: found[0].id,
+        productId: id,
+        quantity: parseInt(found[0].quantity) + count,
+        price: count * parseInt(data.price) + parseInt(found[0].price),
+      })
+        .then((res) => {
+          /* ถ้าใน cart มี product อื่นอยู่ด้วย */
+          if (cart.filter((item) => item.productId != id).length > 0) {
+            dispatch(updateCart(cart.filter((item) => item.productId != res.data.productId)));
+            dispatch(addCart(res.data))
+          } else {
+            dispatch(updateCart([res.data]));
+          }
+        })
+        .catch((err) => {
+          console.log("Update cart fail!" + err);
+        });
+    } else {
+      /* ถ้ายังไม่มี product ใน cart ให้เข้า function createCart */
+      createCart(idtoken, { productId: id, quantity: count, price: data.price })
+        .then((res) => {
+          dispatch(addCart(res.data));
+        })
+        .catch((err) => {
+          console.log("Create cart fail!" + err);
+        });
+    }
   };
 
   const fetchData = () => {
@@ -69,7 +96,6 @@ function ProductDetail() {
         console.log(err);
       });
   };
-  
 
   useEffect(() => {
     fetchData();
@@ -94,7 +120,7 @@ function ProductDetail() {
                 width: "100%",
                 height: "500px",
                 objectFit: "cover",
-                borderRadius: "20px"
+                borderRadius: "20px",
               }}
             />
           </div>
@@ -132,10 +158,10 @@ function ProductDetail() {
 
             <button
               className="btn btn-primary w-full"
-              onClick={addCart}
-              disabled={idtoken ? disabled : true}
+              onClick={addCarts}
+              disabled={idtoken ? false : true}
             >
-              {disabled ? <span className="loading" /> : <p>Add To Cart</p>}
+              <p>Add To Cart</p>
             </button>
           </div>
           {loading && (
