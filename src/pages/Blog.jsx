@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+//Functions
 import { listBlog } from "../functions/blog";
 
 function Blog() {
@@ -12,7 +13,7 @@ function Blog() {
 
     listBlog()
       .then((res) => {
-        setData(res.data.response);
+        setData(res.data);
         setLoading(false);
       })
       .catch((err) => {

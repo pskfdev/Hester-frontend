@@ -61,7 +61,7 @@ function Cart() {
         <h2 className="text-center text-3xl my-10">
           Cart : {cart ? cart.length : ""} product
         </h2>
-        <div className="grid lg:grid-cols-2 gap-0 md:gap-4">
+        <div className="grid lg:grid-cols-2 gap-0 md:gap-4 space-y-10 md:space-y-0">
           <div>
             <h4 className="text-center text-3xl py-3 bg-green-200 rounded-md">
               List product
@@ -70,7 +70,7 @@ function Cart() {
               <thead>
                 <tr className="text-center">
                   <th>No</th>
-                  <th>Image</th>
+                  <th className="hidden md:flex">Image</th>
                   <th>Name</th>
                   <th>Quantity</th>
                   <th>Price</th>
@@ -82,7 +82,7 @@ function Cart() {
                   data?.map((item, idx) => (
                     <tr key={idx} className="text-center">
                       <td>{idx}</td>
-                      <td>
+                      <td className="hidden md:flex">
                         <img
                           src={`${import.meta.env.VITE_APP_IMAGE}${
                             item?.product?.image

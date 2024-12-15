@@ -5,7 +5,6 @@ import { useDispatch } from "react-redux";
 import { signin } from "../../store/userSlice";
 import { addWishlist } from "../../store/wishlistSlice";
 /* Functions */
-import { listWishlist } from "../../functions/wishlist";
 import { login } from "../../functions/auth";
 
 function Login({ handleClose, handleRegis }) {
@@ -29,22 +28,6 @@ function Login({ handleClose, handleRegis }) {
     }
   };
 
-  /* get wishlist to redux */
-  /* const fetchWishlist = (token) => {
-
-    listWishlist(token)
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (res) {
-        const data = res.response;
-        data.forEach((item) => dispatch(addWishlist(item.product_id)));
-      })
-      .catch((err) => {
-        console.log("get wishlist fail!" + err);
-      });
-  } */
-
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
@@ -61,8 +44,6 @@ function Login({ handleClose, handleRegis }) {
         dispatch(addWishlist(payload.wishlists));
         localStorage.setItem("token", token);
 
-        /* get wistlist */
-        /* fetchWishlist(res.response.token); */
         handleClose();
       })
       .catch((err) => {

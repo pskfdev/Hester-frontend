@@ -14,7 +14,6 @@ import { addCart, updateCart } from "../store/cartSlice";
 function ProductDetail() {
   let { id } = useParams();
   const [data, setData] = useState([]);
-
   const [loading, setLoading] = useState(false);
   const idtoken = localStorage.token;
   /* Redux */

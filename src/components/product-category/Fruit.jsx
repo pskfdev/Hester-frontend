@@ -24,14 +24,14 @@ function Fruit() {
     <div className="mt-20 grid md:grid-cols-2 lg:grid-cols-3 gap-5">
       {data ? (
         data
-          .filter((data) => data?.category?.name == "fruits")
+          .filter((data) => data?.category?.name == "fruit")
           .slice(0, 5)
           .map((item) => {
             return (
               <div className="text-center" key={item.id}>
                 <Link to={`/shop/${item.id}`}>
                   <img
-                    src={`${import.meta.env.VITE_APP_IMAGE}${item?.img}`}
+                    src={`${import.meta.env.VITE_APP_IMAGE}${item?.image}`}
                     alt={item?.title}
                     style={{
                       width: "100%",
