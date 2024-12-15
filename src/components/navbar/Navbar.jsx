@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
-
 //Components
 import Login from "./Login";
 import Register from "./Register";
@@ -10,7 +9,6 @@ import {
   FiChevronDown,
   FiHeart,
 } from "react-icons/fi";
-
 //Redux
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../store/userSlice";
@@ -24,9 +22,8 @@ function Navbar() {
 
   const dispatch = useDispatch();
   const { username, role, wishlist } = useSelector((state) => state.userStore.user);
+  const cart = useSelector((state) => state.cartStore.cart);
   
-
-  let cart = JSON.parse(localStorage.getItem("cart"));
   let location = useLocation();
   let path = location.pathname;
 

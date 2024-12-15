@@ -35,8 +35,8 @@ function ProductDetail() {
   };
 
   const addCarts = () => {
-    /* ถ้ายังไม่มีข้อมูลใน cart */
-    if (cart.length == 0) {
+    /* ถ้ายังไม่มีข้อมูลใน cart หรือ ใน cart ยังไม่มี productId นี้ */
+    if (cart.length == 0 || cart.filter((item) => item.productId == id).length == 0) {
       createCart(idtoken, { productId: id, quantity: count, price: data.price })
         .then((res) => {
           dispatch(addCart(res.data));
@@ -44,43 +44,39 @@ function ProductDetail() {
         .catch((err) => {
           console.log("Create cart fail!" + err);
         });
+
       return;
     }
 
-    /* ถ้ามี product ใน cart ให้เข้า function editCart */
-    if (cart.filter((item) => item.productId == id).length > 0) {
-      
-      /* ดึง cart จาก redux เพื่อเอา id cart */
-      const found = cart.filter((item) => item.productId == id);
+    /* ถ้ามี productId นี้ใน cart ให้เข้า function editCart */
+    /* ดึง cart จาก redux เพื่อเอา id cart */
+    const found = cart.filter((item) => item.productId == id);
 
-      editCart(idtoken, {
-        cartId: found[0].id,
-        productId: id,
-        quantity: parseInt(found[0].quantity) + count,
-        price: count * parseInt(data.price) + parseInt(found[0].price),
-      })
-        .then((res) => {
-          /* ถ้าใน cart มี product อื่นอยู่ด้วย */
-          if (cart.filter((item) => item.productId != id).length > 0) {
-            dispatch(updateCart(cart.filter((item) => item.productId != res.data.productId)));
-            dispatch(addCart(res.data))
-          } else {
-            dispatch(updateCart([res.data]));
-          }
-        })
-        .catch((err) => {
-          console.log("Update cart fail!" + err);
-        });
-    } else {
-      /* ถ้ายังไม่มี product ใน cart ให้เข้า function createCart */
-      createCart(idtoken, { productId: id, quantity: count, price: data.price })
-        .then((res) => {
+    editCart(idtoken, {
+      cartId: found[0].id,
+      productId: id,
+      quantity: parseInt(found[0].quantity) + count,
+      price: count * parseInt(data.price) + parseInt(found[0].price),
+    })
+      .then((res) => {
+        /* ถ้าใน cart มี productId อื่นอยู่ด้วยให้ filter ข้อมูลเก่าออกมาพร้อมกับเพิ่มข้อมูลใหม่ */
+        if (cart.filter((item) => item.productId != id).length > 0) {
+          /* Update ข้อมูลเก่า */
+          dispatch(
+            updateCart(
+              cart.filter((item) => item.productId != res.data.productId)
+            )
+          );
+
+          /* Update ข้อมูลใหม่ที่แก้ไขแล้ว */
           dispatch(addCart(res.data));
-        })
-        .catch((err) => {
-          console.log("Create cart fail!" + err);
-        });
-    }
+        } else {
+          dispatch(updateCart([res.data]));
+        }
+      })
+      .catch((err) => {
+        console.log("Update cart fail!" + err);
+      });
   };
 
   const fetchData = () => {

@@ -34,8 +34,7 @@ export const editCart = async (token, value) => {
 
 export const deleteCart = async (token, cartId) => {
   return await axios.delete(
-    `${import.meta.env.VITE_APP_API}/cart`,
-    { cartId: cartId },
+    `${import.meta.env.VITE_APP_API}/cart/${cartId}`,
     {
       headers: {
         authorization: `Bearer ${token}`,
