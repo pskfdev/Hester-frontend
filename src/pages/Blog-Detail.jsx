@@ -12,7 +12,7 @@ function BlogDetail() {
 
     readBlog(id)
       .then((res) => {
-        setData(res.data.response);
+        setData(res.data);
         setLoading(false);
       })
       .catch((err) => {
@@ -29,12 +29,12 @@ function BlogDetail() {
   return (
     <div className="flex flex-col min-h-screen">
 
-      <div className="w-100 container mx-auto py-32 grow">
+      <div className="w-full container mx-auto py-32 grow">
         <div className="mt-32 px-5 lg:px-0">
           {loading && <span className="loading loading-ring text-error opacity-40 w-1/4 fixed inset-x-1/3 z-10"></span>}
-          <p className="text-center">{data.created}</p>
-          <h1 className="text-4xl font-bold text-center my-14">{data.name}</h1>
-          <p className="text-lg">{data.description}</p>
+          <p className="text-center">{data?.created}</p>
+          <h1 className="text-center my-14">{data?.name}</h1>
+          <p>{data?.description}</p>
         </div>
         <Link to="/blog" className="btn mt-20">Back to blog</Link>
       </div>

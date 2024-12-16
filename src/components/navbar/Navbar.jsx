@@ -170,7 +170,7 @@ function Navbar() {
 
         {/* Wishlist and Cart */}
         {username && (
-          <div className="hidden lg:flex">
+          <div className="hidden lg:flex space-x-4">
             <Link
               to="/wishlist"
               className="btn btn-ghost btn-circle"

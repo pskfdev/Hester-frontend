@@ -35,7 +35,10 @@ function ProductDetail() {
 
   const addCarts = () => {
     /* ถ้ายังไม่มีข้อมูลใน cart หรือ ใน cart ยังไม่มี productId นี้ */
-    if (cart.length == 0 || cart.filter((item) => item.productId == id).length == 0) {
+    if (
+      cart.length == 0 ||
+      cart.filter((item) => item.productId == id).length == 0
+    ) {
       createCart(idtoken, { productId: id, quantity: count, price: data.price })
         .then((res) => {
           dispatch(addCart(res.data));
