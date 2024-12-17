@@ -21,9 +21,11 @@ function Navbar() {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
-  const { username, role, wishlist } = useSelector((state) => state.userStore.user);
+  const { username, role, wishlist } = useSelector(
+    (state) => state.userStore.user
+  );
   const cart = useSelector((state) => state.cartStore.cart);
-  
+
   let location = useLocation();
   let path = location.pathname;
 
@@ -60,10 +62,12 @@ function Navbar() {
 
   return (
     <nav
-      className={`navbar z-40 py-10 px-10 lg:px-20 fixed top-0 ${
-        path == "/" ? "text-white" : "text-black"
+      className={`navbar z-40 py-10 px-10 lg:px-20 fixed top-0 rounded-b-3xl ${
+        path == "/"
+          ? "text-white border-0"
+          : "text-slate-600 border-b-1 bg-gradient-to-b from-slate-400 to-slate-100"
       } flex justify-between ${
-        bgNav ? "bg-red-400 bg-opacity-70" : "bg-tranparent"
+        bgNav ? "bg-amber-300 bg-opacity-90 transition ease-in-out duration-500" : "bg-tranparent"
       }`}
     >
       <div className="text-lg hidden lg:block">
@@ -75,7 +79,6 @@ function Navbar() {
       </div>
 
       <div className="space-x-5">
-
         {/* humberger responsive */}
         <div className="dropdown lg:hidden">
           <label tabIndex={0} className="btn btn-ghost btn-circle">
@@ -129,7 +132,7 @@ function Navbar() {
         {/* END humberger responsive */}
 
         {/* Logo */}
-        <Link to="/" className="normal-case font-bold text-4xl">
+        <Link to="/" className="normal-case font-bold text-4xl tracking-wide">
           Hester
         </Link>
       </div>
@@ -138,7 +141,7 @@ function Navbar() {
       <div className="">
         {username ? (
           <div className="dropdown">
-            <label tabIndex={0} className="btn btn-link">
+            <label tabIndex={0} className="btn btn-link tracking-wider">
               {username}
               <span>
                 <FiChevronDown />
@@ -146,7 +149,7 @@ function Navbar() {
             </label>
             <ul
               tabIndex={0}
-              className="menu dropdown-content z-[1] shadow bg-red-300 bg-opacity-80 rounded-box w-32"
+              className="menu dropdown-content z-[1] shadow bg-slate-200 bg-opacity-80 rounded-box w-32 tracking-wider"
             >
               <li
                 className="cursor-pointer text-lg text-center"
@@ -171,20 +174,13 @@ function Navbar() {
         {/* Wishlist and Cart */}
         {username && (
           <div className="hidden lg:flex space-x-4">
-            <Link
-              to="/wishlist"
-              className="btn btn-ghost btn-circle"
-            >
+            <Link to="/wishlist" className="btn btn-ghost btn-circle hover:bg-slate-200">
               <FiHeart size={30} />
             </Link>
-            <Link
-              to="/cart"
-              tabIndex={0}
-              className="btn btn-ghost btn-circle"
-            >
+            <Link to="/cart" tabIndex={0} className="btn btn-ghost btn-circle hover:bg-slate-200">
               <div className="indicator">
                 <FiShoppingCart size={30} />
-                <span className="badge badge-sm indicator-item bg-red-700">
+                <span className="badge badge-sm indicator-item bg-rose-600">
                   {cart && cart.length}
                 </span>
               </div>
