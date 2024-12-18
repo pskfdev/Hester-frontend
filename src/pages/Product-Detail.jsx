@@ -102,30 +102,24 @@ function ProductDetail() {
 
   return (
     <>
-      <div className="my-48 container mx-auto px-5 md:px-0">
+      <div className="py-48 container mx-auto px-5 md:px-0">
         <div className="my-10 text-lg font-bold text-slate-500">
           <Link to="/shop">Shop</Link> <span>{">"}</span>{" "}
-          <span className="text-black">{data?.title}</span>
+          <span className="text-slate-600">{data?.title}</span>
         </div>
 
-        <div className="w-100 h-3/4 flex flex-col lg:flex-row lg:space-x-10 items-center">
+        <div className="w-full h-3/4 flex flex-col lg:flex-row lg:space-x-10 items-center">
           <div className="w-full">
             <img
               src={`${import.meta.env.VITE_APP_IMAGE}${data?.image}`}
               alt={data?.title}
-              className="mx-auto"
-              style={{
-                width: "100%",
-                height: "500px",
-                objectFit: "cover",
-                borderRadius: "20px",
-              }}
+              className="mx-auto w-full h-[500px] object-cover rounded-3xl drop-shadow-md"
             />
           </div>
 
-          <div className="w-100 lg:w-9/12 space-y-8 mt-10 lg:mt-0">
+          <div className="w-full lg:w-9/12 space-y-8 mt-10 lg:mt-0 text-slate-600">
             <div>
-              <p className="text-4xl font-bold uppercase">{data?.title}</p>
+              <h1 className="uppercase">{data?.title}</h1>
               <br />
               <p className="text-xl font-bold">${data?.price}</p>
               <br />
@@ -144,7 +138,7 @@ function ProductDetail() {
               >
                 -
               </button>
-              <span className="text-2xl font-bold mx-4">{count}</span>
+              <span className="text-2xl font-bold mx-4 text-blue-600">{count}</span>
               <button
                 className="w-6 h-6 rounded-full text-white bg-indigo-500 hover:bg-indigo-600"
                 onClick={increment}
@@ -162,13 +156,14 @@ function ProductDetail() {
               <p>Add To Cart</p>
             </button>
           </div>
+
           {loading && (
             <span className="loading loading-ring text-error opacity-40 w-1/4 fixed inset-x-1/3 z-10"></span>
           )}
         </div>
 
-        <div className="my-40">
-          <p className="text-4xl font-bold">You Might Also Like</p>
+        <div className="my-40 text-slate-600">
+          <h1>You Might Also Like</h1>
           {data?.category?.name == "vegetable" ? <Vegetable /> : <Fruit />}
         </div>
       </div>

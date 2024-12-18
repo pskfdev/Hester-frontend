@@ -23,7 +23,7 @@ function RecommendMenu() {
 
   return (
     <>
-      <div className="text-center py-32">
+      <div className="text-center py-32 text-slate-600">
         <h1 className="text-4xl font-bold">
           Only the Highest Quality Ingredients
         </h1>
@@ -37,12 +37,7 @@ function RecommendMenu() {
               <img
                 src={`${import.meta.env.VITE_APP_IMAGE}${item?.image}`}
                 alt={item?.title}
-                style={{
-                  width: "100%",
-                  height: "400px",
-                  objectFit: "cover",
-                  borderRadius: "20px"
-                }}
+                className="w-full h-[400px] object-cover rounded-3xl drop-shadow-md"
               />
             </div>
           ))}

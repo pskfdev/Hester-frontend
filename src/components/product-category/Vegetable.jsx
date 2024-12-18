@@ -33,15 +33,10 @@ function Vegetable() {
                   <img
                     src={`${import.meta.env.VITE_APP_IMAGE}${item?.image}`}
                     alt={item?.title}
-                    style={{
-                      width: "100%",
-                      height: "400px",
-                      objectFit: "cover",
-                      borderRadius: "20px"
-                    }}
+                    className="w-full h-[400px] object-cover rounded-3xl drop-shadow-md"
                   />
                   <br />
-                  <p>{item?.title}</p>
+                  <p className="text-lg font-semibold">{item?.title}</p>
                   <p>${item?.price}</p>
                 </Link>
               </div>

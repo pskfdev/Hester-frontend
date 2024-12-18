@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { updateCart } from "../store/cartSlice";
 //Functions
 import { deleteCart, listCart } from "../functions/cart";
+import { BsFillBasket2Fill } from "react-icons/bs";
 
 function Cart() {
   const [data, setData] = useState([]);
@@ -57,15 +58,23 @@ function Cart() {
   return (
     <>
       {/* List product */}
-      <div className="my-52 container mx-auto">
-        <h2 className="text-center text-3xl my-10">
-          Cart : {cart ? cart.length : ""} product
-        </h2>
+      <div className="py-52 container mx-auto">
+        {/* Header */}
+        <div className=" flex flex-col items-center mb-20 relative">
+          <h1 className="w-full text-center uppercase flex justify-center items-center">
+            <BsFillBasket2Fill size={35} className="mr-2 -rotate-12" /> Cart :{" "}
+            <span className="text-rose-500 ms-2 tracking-wide">
+              {cart ? cart.length : ""} product
+            </span>
+          </h1>
+          <div className="w-[150px] mt-5 border-b-4 border-rose-400"></div>
+        </div>
+
         <div className="grid lg:grid-cols-2 gap-0 md:gap-4 space-y-10 md:space-y-0">
           <div>
-            <h4 className="text-center text-3xl py-3 bg-green-200 rounded-md">
+            <h3 className="text-center py-3 text-slate-200 bg-rose-400 rounded-md tracking-wide">
               List product
-            </h4>
+            </h3>
             <table className="table">
               <thead>
                 <tr className="text-center">
@@ -91,7 +100,9 @@ function Cart() {
                         />
                       </td>
                       <td>
-                        <Link to={`/shop/${item?.productId}`}>{item?.product?.title}</Link>
+                        <Link to={`/shop/${item?.productId}`}>
+                          {item?.product?.title}
+                        </Link>
                       </td>
                       <td>{item?.quantity}</td>
                       <td>{item?.price}</td>
@@ -112,20 +123,23 @@ function Cart() {
           </div>
 
           {/* Summary */}
-          <div className="w-full text-2xl border border-yellow-200 h-fit rounded-md">
-            <h4 className="text-center text-3xl py-3 bg-yellow-200">Summary</h4>
-            <div className="px-10 space-y-5 py-10">
+          <div className="w-full text-2xl h-fit border-b-2 text-slate-600 border-slate-600">
+            <h3 className="text-center py-3 text-slate-200 bg-slate-600 tracking-wide rounded-md">
+              Summary
+            </h3>
+            <div className="px-10 space-y-5 py-10 border-x-2 border-slate-600">
               {data &&
                 data?.map((item, idx) => (
-                  <p key={idx}>
-                    {item?.product?.title} x {item?.quantity} = {item?.price}
+                  <p key={idx} className="flex items-center">
+                    {item?.product?.title} <span className="text-sm mx-2 text-slate-500">x</span>{" "}
+                    {item?.quantity} = {item?.price} Bath
                   </p>
                 ))}
-              <hr className="border-yellow-200" />
+              <hr className="border-slate-600" />
               <div className="flex justify-between">
-                <p>Total : {sumTotal()}</p>
+                <p>Total : {sumTotal()} Bath</p>
                 <button
-                  className="btn btn-warning"
+                  className="btn btn-neutral"
                   disabled={token ? "" : "disabled"}
                 >
                   {token ? <p>Pay now</p> : <p>Login Please</p>}

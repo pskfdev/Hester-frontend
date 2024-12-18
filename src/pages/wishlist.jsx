@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 //Functions
 import { deleteWishlists, listWishlist } from "../functions/wishlist";
+import { BsFillBalloonHeartFill } from "react-icons/bs";
 //Redux
 import { useSelector, useDispatch } from "react-redux";
 import { removeWistlist } from "../store/wishlistSlice";
 import { addCart, updateCart } from "../store/cartSlice";
 import { createCart, editCart } from "../functions/cart";
+
 
 function wishlist() {
   const [data, setData] = useState([]);
@@ -43,7 +45,10 @@ function wishlist() {
 
   const addCarts = (productId, price) => {
     /* ถ้ายังไม่มีข้อมูลใน cart หรือ ใน cart ยังไม่มี productId นี้ */
-    if (cart.length == 0 || cart.filter((item) => item.productId == productId).length == 0) {
+    if (
+      cart.length == 0 ||
+      cart.filter((item) => item.productId == productId).length == 0
+    ) {
       createCart(idtoken, { productId: productId, quantity: 1, price: price })
         .then((res) => {
           dispatch(addCart(res.data));
@@ -63,7 +68,7 @@ function wishlist() {
       cartId: found[0].id,
       productId: productId,
       quantity: parseInt(found[0].quantity) + 1,
-      price: (1 * parseInt(price)) + parseInt(found[0].price),
+      price: 1 * parseInt(price) + parseInt(found[0].price),
     })
       .then((res) => {
         /* ถ้าใน cart มี productId อื่นอยู่ด้วยให้ filter ข้อมูลเก่าออกมาพร้อมกับเพิ่มข้อมูลใหม่ */
@@ -92,10 +97,17 @@ function wishlist() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <div className="w-100 grow my-52 container mx-auto">
-        <h2 className="text-center text-3xl my-10 py-5 bg-red-100">
-          My wishlist
-        </h2>
+      <div className="w-full grow my-52 container mx-auto">
+
+        {/* Header */}
+        <div className=" flex flex-col items-center mb-20 relative">
+          <h1 className="w-full text-center uppercase flex justify-center items-center">
+            <BsFillBalloonHeartFill size={30} className="mr-2 -rotate-12" /> My{" "}
+            <span className="text-rose-500 ms-2 tracking-wider">Wishlist</span>
+          </h1>
+          <div className="w-[80px] mt-5 border-b-4 border-rose-400"></div>
+        </div>
+
         {data ? (
           data.map((item) => {
             return (
@@ -105,7 +117,9 @@ function wishlist() {
               >
                 <div>
                   <img
-                    src={`${import.meta.env.VITE_APP_IMAGE}${item?.product?.image}`}
+                    src={`${import.meta.env.VITE_APP_IMAGE}${
+                      item?.product?.image
+                    }`}
                     alt={item?.title}
                     className="w-40 mx-auto"
                   />
@@ -121,7 +135,9 @@ function wishlist() {
                   <button
                     className="btn btn-outline btn-success z-10"
                     disabled={disable}
-                    onClick={() => addCarts(item?.productId, item?.product?.price)}
+                    onClick={() =>
+                      addCarts(item?.productId, item?.product?.price)
+                    }
                   >
                     {disable ? (
                       <span className="loading " />

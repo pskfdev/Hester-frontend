@@ -8,6 +8,8 @@ import {
   FiAlignLeft,
   FiChevronDown,
   FiHeart,
+  FiLogOut,
+  FiUserCheck,
 } from "react-icons/fi";
 //Redux
 import { useSelector, useDispatch } from "react-redux";
@@ -67,7 +69,9 @@ function Navbar() {
           ? "text-white border-0"
           : "text-slate-600 border-b-1 bg-gradient-to-b from-slate-400 to-slate-100"
       } flex justify-between ${
-        bgNav ? "bg-amber-300 bg-opacity-90 transition ease-in-out duration-500" : "bg-tranparent"
+        bgNav
+          ? "bg-amber-300 bg-opacity-90 transition ease-in-out duration-500"
+          : "bg-tranparent"
       }`}
     >
       <div className="text-lg hidden lg:block">
@@ -86,20 +90,24 @@ function Navbar() {
           </label>
           <ul
             tabIndex={0}
-            className="menu dropdown-content mt-3 z-[1] p-2 shadow bg-red-300 bg-opacity-80 rounded-box w-52"
+            className={`menu dropdown-content mt-3 z-[1] p-2 shadow bg-opacity-80 rounded-box w-52 ${
+              path == "/"
+                ? "bg-amber-300"
+                : "text-slate-600 border-b-1 bg-slate-200"
+            }`}
           >
             <li>
-              <NavLink to="/shop" className="text-xl">
+              <NavLink to="/shop" className="text-lg font-semibold">
                 Shop
               </NavLink>
             </li>
             <li>
-              <NavLink to="/about" className="text-xl">
+              <NavLink to="/about" className="text-lg font-semibold">
                 Our story
               </NavLink>
             </li>
             <li>
-              <NavLink to="/blog" className="text-xl">
+              <NavLink to="/blog" className="text-lg font-semibold">
                 Blog
               </NavLink>
             </li>
@@ -108,7 +116,7 @@ function Navbar() {
               <div className="flex">
                 <Link
                   to="/wishlist"
-                  className="btn btn-ghost btn-circle mt-4 ms-2"
+                  className="btn btn-ghost btn-circle mt-4 ms-2 hover:bg-rose-600 hover:text-slate-200"
                 >
                   <FiHeart size={30} />
                 </Link>
@@ -116,11 +124,11 @@ function Navbar() {
                 <Link
                   to="/cart"
                   tabIndex={0}
-                  className="btn btn-ghost btn-circle mt-4 ms-2"
+                  className="btn btn-ghost btn-circle mt-4 ms-2 hover:bg-green-500 hover:text-slate-200"
                 >
                   <div className="indicator">
                     <FiShoppingCart size={30} />
-                    <span className="badge badge-sm indicator-item bg-red-700">
+                    <span className="badge badge-sm indicator-item bg-rose-600">
                       {cart ? cart.length : ""}
                     </span>
                   </div>
@@ -149,13 +157,30 @@ function Navbar() {
             </label>
             <ul
               tabIndex={0}
-              className="menu dropdown-content z-[1] shadow bg-slate-200 bg-opacity-80 rounded-box w-32 tracking-wider"
+              className={`menu dropdown-content z-[1] shadow bg-opacity-80 rounded-box w-[150px] tracking-wider ${
+                path == "/"
+                  ? "bg-amber-300"
+                  : "text-slate-600 border-b-1 bg-slate-200"
+              }`}
             >
-              <li
-                className="cursor-pointer text-lg text-center"
-                onClick={Logout}
-              >
-                Logout
+              <li>
+                <Link
+                  to="/profile"
+                  className="hover:text-green-500 font-semibold"
+                >
+                  <span>
+                    <FiUserCheck />
+                  </span>
+                  Profile
+                </Link>
+              </li>
+              <li onClick={Logout}>
+                <a className="hover:text-rose-500 font-semibold">
+                  <span>
+                    <FiLogOut />
+                  </span>{" "}
+                  Logout
+                </a>
               </li>
             </ul>
           </div>
@@ -174,10 +199,17 @@ function Navbar() {
         {/* Wishlist and Cart */}
         {username && (
           <div className="hidden lg:flex space-x-4">
-            <Link to="/wishlist" className="btn btn-ghost btn-circle hover:bg-slate-200">
+            <Link
+              to="/wishlist"
+              className="btn btn-ghost btn-circle hover:text-slate-200 hover:bg-rose-500"
+            >
               <FiHeart size={30} />
             </Link>
-            <Link to="/cart" tabIndex={0} className="btn btn-ghost btn-circle hover:bg-slate-200">
+            <Link
+              to="/cart"
+              tabIndex={0}
+              className="btn btn-ghost btn-circle hover:text-slate-200 hover:bg-green-500"
+            >
               <div className="indicator">
                 <FiShoppingCart size={30} />
                 <span className="badge badge-sm indicator-item bg-rose-600">

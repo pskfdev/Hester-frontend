@@ -36,7 +36,7 @@ function App() {
   }, [token]);
 
   return (
-    <div className="static">
+    <div className="static bg-slate-50">
       <Navbar />
 
       <Outlet />

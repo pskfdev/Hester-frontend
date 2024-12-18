@@ -55,7 +55,7 @@ function Shop() {
 
       <div className="container mx-auto w-100 my-20 relative grow">
         {/* Menu category */}
-        <div className="tabs tabs-boxed w-fit mx-auto mt-44 uppercase">
+        <div className="tabs tabs-boxed w-fit mx-auto mt-44 uppercase bg-slate-200 drop-shadow-lg">
           <a
             className={`tab ${"all" == activeMenu && "tab-active"}`}
             onClick={() => {
@@ -78,7 +78,7 @@ function Shop() {
         </div>
 
         {/* show products */}
-        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-10 px-10">
+        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-10 px-10 drop-shadow-md">
           {filter ? (
             filter.map((item, idx) => (
               <Link to={`/shop/${item.id}`} key={item.id}>
@@ -92,7 +92,7 @@ function Shop() {
                     borderRadius: "20px"
                   }}
                 />
-                <div className="text-center mt-5">
+                <div className="text-center mt-5 text-slate-600">
                   <h3 className="text-3xl">{item?.title}</h3>
                   <p className="mt-3 text-lg">${item?.price}</p>
                 </div>

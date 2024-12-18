@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+//Components
 import Header from "../components/Header";
 import RecommendMenu from "../components/Recommend-menu";
 import Subscribe from "../components/Subscribe";
@@ -9,7 +10,7 @@ function Home() {
     window.scrollTo(0, 0);
   }, []);
   return (
-    <div className="w-100 bg-base-100">
+    <div className="w-full">
       <Header />
 
       <RecommendMenu />

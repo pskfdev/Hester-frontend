@@ -4,8 +4,8 @@ import {
   FiClock,
   FiBookOpen,
   FiChevronsRight,
-  FiBookmark,
 } from "react-icons/fi";
+import { BsBookmarkFill } from "react-icons/bs";
 import moment from "moment";
 //Functions
 import { listBlog } from "../functions/blog";
@@ -49,7 +49,7 @@ function Blog() {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen bg-slate-50">
+    <div className="flex flex-col min-h-screen">
       <div className="w-100 my-20 grow">
         <div className="w-full container mx-auto pt-40 px-10 lg:px-0 relative">
           {loading && (
@@ -57,7 +57,7 @@ function Blog() {
           )}
 
           {/* Header */}
-          <div className=" flex flex-col items-center mb-20 relative">
+          <div className="flex flex-col items-center mb-20 relative">
             <h1 className="text-center uppercase flex items-center">
               <FiBookOpen size={30} className="mr-2 -rotate-12" /> My{" "}
               <span className="text-rose-500 ms-2 tracking-wider">Blog</span>
@@ -91,16 +91,16 @@ function Blog() {
                     <span className="text-xs text-rose-500 flex items-center space-x-1 tracking-wide">
                       <FiClock /> <p>{moment(item?.updatedAt).format("LL")}</p>
                     </span>
-                    <h2 className="text-gray-700 first-letter:uppercase tracking-wide">
+                    <h2 className="text-slate-600 first-letter:uppercase tracking-wide">
                       {item.name}
                     </h2>
                   </div>
-                  <FiBookmark
+                  <BsBookmarkFill
                     size={25}
-                    className="absolute top-5 right-8 text-gray-500"
+                    className="absolute top-5 right-8 text-amber-500"
                   />
 
-                  <p className="text-gray-500">
+                  <p className="text-slate-500">
                     {item?.description.slice(0, 200) + "..."}{" "}
                   </p>
 

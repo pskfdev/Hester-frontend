@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 function Subscribe() {
   return (
     <div className="py-20">
-      <div className="text-center">
+      <div className="text-center text-slate-600">
         <h1 className="text-4xl font-bold">What’s the Dill?</h1>
         <p className="my-10">
           Sign up with your email address to receive news and updates.
