@@ -121,7 +121,7 @@ function wishlist() {
                       item?.product?.image
                     }`}
                     alt={item?.title}
-                    className="w-40 mx-auto"
+                    className="w-40 mx-auto rounded-md"
                   />
                 </div>
                 <Link

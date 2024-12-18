@@ -76,7 +76,7 @@ function Blog() {
             dataSearch.map((item, idx) => (
               <div
                 key={item?.id}
-                className="mt-10 lg:mx-20 flex flex-col lg:flex-row rounded-[20px] overflow-hidden bg-white drop-shadow-md"
+                className="mt-10 lg:mx-20 flex flex-col lg:flex-row rounded-[20px] overflow-hidden bg-gradient-to-l from-rose-100 to-slate-100 drop-shadow-md"
               >
                 <div className="w-full lg:w-96 my-auto">
                   <img

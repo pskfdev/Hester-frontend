@@ -11,15 +11,14 @@ function About() {
   return (
     <>
       <div className="w-full py-20 text-slate-600">
-        <div className="w-full lg:w-2/4 mx-auto my-52 px-5 lg:px-0">
-          {/* <h1 className="text-4xl font-bold">Our Story</h1> */}
+        <div className="w-full lg:w-2/4 mx-auto py-52 px-5 lg:px-0">
+      
           {/* Header */}
           <div className="flex flex-col relative w-fit text-black">
             <h1 className="uppercase flex items-center">
               <FiFeather size={35} className="mr-2 -rotate-90" /> Our{" "}
               <span className="text-rose-500 ms-2 tracking-wider">Story</span>
             </h1>
-            {/* <div className="w-[80px] mt-5 mx-auto border-b-4 border-rose-400"></div> */}
           </div>
 
           <p className="mt-5 text-2xl">
@@ -41,7 +40,7 @@ function About() {
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
-          className="h-screen w-100"
+          className="h-screen w-full shadow-2xl"
         ></div>
 
         <div className="w-100 lg:w-2/4 mx-auto my-60 px-5 lg:px-0">
