@@ -52,7 +52,6 @@ function Cart() {
 
   useEffect(() => {
     fetchData();
-    window.scrollTo(0, 0);
   }, [numcount]);
 
   return (

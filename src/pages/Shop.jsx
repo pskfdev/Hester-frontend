@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 //Functions
 import { listCategory } from "../functions/category";
 import { listProduct } from "../functions/product";
+import { FiBookOpen } from "react-icons/fi";
+import { BsFillBalloonHeartFill } from "react-icons/bs";
+import { CiLemon } from "react-icons/ci";
 
 function Shop() {
   const [data, setData] = useState([]);
@@ -47,34 +50,45 @@ function Shop() {
   useEffect(() => {
     fetchCategory();
     fetchData();
-    window.scrollTo(0, 0);
   }, []);
 
   return (
     <div className="flex flex-col min-h-screen">
+      <div className="container mx-auto w-full my-20 relative grow">
+        <div className="w-full flex flex-col lg:flex-row pt-44 ps-10 relative">
+          {/* Header */}
+          <div className="pb-44 lg:pb-0">
+            <h1 className="w-full text-center uppercase flex justify-center items-center">
+              <CiLemon size={35} className="mr-1 -rotate-90" />{" "}
+              Pro
+              <span className="text-rose-500 tracking-wide">
+                Ducts
+              </span>
+            </h1>
+          </div>
 
-      <div className="container mx-auto w-100 my-20 relative grow">
-        {/* Menu category */}
-        <div className="tabs tabs-boxed w-fit mx-auto mt-44 uppercase bg-slate-200 drop-shadow-lg">
-          <a
-            className={`tab ${"all" == activeMenu && "tab-active"}`}
-            onClick={() => {
-              setFilter(data);
-              setActiveMenu("all");
-            }}
-          >
-            all
-          </a>
-          {category &&
-            category.map((item, idx) => (
-              <a
-                key={item.id}
-                className={`tab ${item.name == activeMenu && "tab-active"}`}
-                onClick={() => SelectCategory(item.name)}
-              >
-                {item.name}
-              </a>
-            ))}
+          {/* Menu category */}
+          <div className="tabs tabs-boxed w-fit uppercase bg-slate-200 drop-shadow-lg mt-[90px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <a
+              className={`tab ${"all" == activeMenu && "tab-active"}`}
+              onClick={() => {
+                setFilter(data);
+                setActiveMenu("all");
+              }}
+            >
+              all
+            </a>
+            {category &&
+              category.map((item, idx) => (
+                <a
+                  key={item.id}
+                  className={`tab ${item.name == activeMenu && "tab-active"}`}
+                  onClick={() => SelectCategory(item.name)}
+                >
+                  {item.name}
+                </a>
+              ))}
+          </div>
         </div>
 
         {/* show products */}
@@ -89,7 +103,7 @@ function Shop() {
                     width: "100%",
                     height: "400px",
                     objectFit: "cover",
-                    borderRadius: "20px"
+                    borderRadius: "20px",
                   }}
                 />
                 <div className="text-center mt-5 text-slate-600">

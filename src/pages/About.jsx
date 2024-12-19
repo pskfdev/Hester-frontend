@@ -1,13 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { FiFeather } from "react-icons/fi";
 //Components
 import bgProduct from "../assets/background/bg-product.jpg";
 
 
 function About() {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+
   return (
     <>
       <div className="w-full py-20 text-slate-600">

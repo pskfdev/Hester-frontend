@@ -97,7 +97,6 @@ function ProductDetail() {
 
   useEffect(() => {
     fetchData();
-    window.scrollTo(0, 0);
   }, [id]);
 
   return (

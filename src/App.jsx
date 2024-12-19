@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation  } from "react-router-dom";
 //Components
 import Navbar from "./components/navbar/Navbar";
 import Footer from "./components/Footer";
@@ -14,6 +14,7 @@ import { updateCart } from "./store/cartSlice";
 
 function App() {
 
+  const { pathname } = useLocation();
   const token = localStorage.token;
   const dispatch = useDispatch();
 
@@ -32,8 +33,9 @@ function App() {
   };
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
     checkUser();
-  }, [token]);
+  }, [token, pathname]);
 
   return (
     <div className="static bg-slate-50">
