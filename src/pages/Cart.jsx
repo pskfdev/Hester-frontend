@@ -66,7 +66,7 @@ function Cart() {
               {cart ? cart.length : ""} product
             </span>
           </h1>
-          <div className="w-[150px] mt-5 border-b-4 border-rose-400"></div>
+          <div className="w-[150px] mt-5 border-b-4 border-rose-400 rounded-xl"></div>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-0 md:gap-4 space-y-10 md:space-y-0">
@@ -98,7 +98,7 @@ function Cart() {
                           className="w-24 mx-auto rounded-md"
                         />
                       </td>
-                      <td>
+                      <td className="first-letter:uppercase text-slate-600">
                         <Link to={`/shop/${item?.productId}`}>
                           {item?.product?.title}
                         </Link>
@@ -129,14 +129,14 @@ function Cart() {
             <div className="px-10 space-y-5 py-10 border-x-2 border-slate-600">
               {data &&
                 data?.map((item, idx) => (
-                  <p key={idx} className="flex items-center">
+                  <p key={idx} className="flex items-center text-slate-500 first-letter:uppercase">
                     {item?.product?.title} <span className="text-sm mx-2 text-slate-500">x</span>{" "}
-                    {item?.quantity} = {item?.price} Bath
+                    {item?.quantity} = {item?.price} ฿
                   </p>
                 ))}
               <hr className="border-slate-600" />
               <div className="flex justify-between">
-                <p>Total : {sumTotal()} Bath</p>
+                <p>Total : {sumTotal()} ฿</p>
                 <button
                   className="btn btn-neutral"
                   disabled={token ? "" : "disabled"}

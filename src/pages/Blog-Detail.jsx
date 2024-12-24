@@ -31,7 +31,7 @@ function BlogDetail() {
   return (
     <div className="flex flex-col min-h-screen">
       <div className="w-full container mx-auto py-32 grow text-slate-600">
-        <div className="mt-32 space-y-36 px-5 lg:px-0">
+        <div className="mt-32 space-y-28 px-5 lg:px-0">
           {loading && (
             <span className="loading loading-ring text-error opacity-40 w-1/4 fixed inset-x-1/3 z-10"></span>
           )}
@@ -46,16 +46,23 @@ function BlogDetail() {
 
           {/* Image */}
           <div className="w-full">
-            <img src={`${import.meta.env.VITE_APP_IMAGE}/${data?.image}`} alt={data?.name} className="w-full rounded-md" />
+            <img
+              src={`${import.meta.env.VITE_APP_IMAGE}/${data?.image}`}
+              alt={data?.name}
+              className="w-full rounded-md lg:h-[800px] object-cover drop-shadow-2xl"
+            />
           </div>
 
           <div>
-            <h3 className="first-letter:uppercase tracking-wide text-slate-500">{data?.description}</h3>
+            <h3 className="first-letter:uppercase tracking-wide text-slate-500">
+              {data?.description}
+            </h3>
           </div>
         </div>
 
         <Link to="/blog" className="btn mt-32 tracking-wide">
-          <FiArrowLeft />Back
+          <FiArrowLeft />
+          Back
         </Link>
       </div>
     </div>

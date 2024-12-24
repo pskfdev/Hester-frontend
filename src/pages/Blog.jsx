@@ -61,7 +61,7 @@ function Blog() {
               <FiBookOpen size={30} className="mr-2 -rotate-12" /> My{" "}
               <span className="text-rose-500 ms-2 tracking-wider">Blog</span>
             </h1>
-            <div className="w-[80px] mt-5 border-b-4 border-rose-400"></div>
+            <div className="w-[80px] mt-5 border-b-4 border-rose-400 rounded-xl"></div>
 
             <input
               type="search"

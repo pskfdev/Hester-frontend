@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, Outlet } from "react-router-dom";
-import { FiUsers, FiBox, FiBookmark } from "react-icons/fi";
+import { FiUsers, FiBox, FiBookmark, FiExternalLink } from "react-icons/fi";
 //Components
 import NavbarAdmin from "../../components/admin/navbar/Navbar-Admin";
 import MenuAdmin from "../../components/admin/navbar/Menu-Admin";
@@ -69,9 +69,9 @@ function HomeAdmin() {
         <div className="w-full">
           {pathName === "/admin" && (
             <div className="w-full container mx-auto py-20 px-5">
-              <h3 className="text-4xl text-center font-bold mb-10 text-gray-500 underline underline-offset-4">
+              <h1 className="text-center font-bold uppercase mb-10 underline underline-offset-8 decoration-emerald-500">
                 Dashboard
-              </h3>
+              </h1>
 
               {/* For Loading */}
               {loading && (
@@ -111,8 +111,9 @@ function HomeAdmin() {
 
               {/* Row 2 */}
               <div className="mt-5 grid grid-cols-1 lg:grid-cols-2 gap-5">
-                <div className="bg-white rounded-lg p-5 text-slate-600">
+                <div className="bg-white rounded-lg p-5 text-slate-600 relative">
                   <p className="text-lg text-center font-bold">Products</p>
+                  <Link to="/admin/product" className="absolute top-6 right-5 text-slate-400"><FiExternalLink /></Link>
                   <div className="overflow-x-auto h-64 mt-5">
                     <table className="table table-xs table-pin-rows">
                       <thead>
@@ -141,8 +142,9 @@ function HomeAdmin() {
                   </div>
                 </div>
 
-                <div className="bg-white rounded-lg p-5 text-slate-600">
+                <div className="bg-white rounded-lg p-5 text-slate-600 relative">
                   <p className="text-lg text-center font-bold">Blogs</p>
+                  <Link to="/admin/blog" className="absolute top-6 right-5 text-slate-400"><FiExternalLink /></Link>
                   <div className="overflow-x-auto h-64 mt-5">
                     <table className="table table-xs table-pin-rows">
                       <thead>

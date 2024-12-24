@@ -39,10 +39,10 @@ function MenuAdmin() {
       </div>
 
       <div className="absolute font-bold uppercase bottom-0 w-full py-5 text-center space-y-2">
-        <h1>{user?.username}</h1>
-        <h2 className="text-red-700 cursor-pointer" onClick={Logout}>
+        <h3>{user?.username}</h3>
+        <button className="btn btn-outline btn-error" onClick={Logout}>
           Logout
-        </h2>
+        </button>
       </div>
     </div>
   );

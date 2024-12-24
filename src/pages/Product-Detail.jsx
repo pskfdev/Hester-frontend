@@ -120,7 +120,7 @@ function ProductDetail() {
             <div>
               <h1 className="uppercase">{data?.title}</h1>
               <br />
-              <p className="text-xl font-bold">${data?.price}</p>
+              <p className="text-xl font-bold">{data?.price} ฿</p>
               <br />
               <p className="text-xl">{data?.description}</p>
             </div>

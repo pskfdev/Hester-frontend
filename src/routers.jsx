@@ -20,6 +20,7 @@ import Cart from "./pages/Cart.jsx";
 import BlogDetail from "./pages/Blog-Detail.jsx";
 import Wishlist from "./pages/wishlist.jsx";
 import App from "./App.jsx";
+import Profile from "./pages/Profile.jsx";
 
 export const routers = createBrowserRouter([
   {
@@ -57,6 +58,10 @@ export const routers = createBrowserRouter([
       {
         path: "blog/:id",
         element: <BlogDetail />,
+      },
+      {
+        path: "profile",
+        element: <Profile />,
       },
     ],
   },

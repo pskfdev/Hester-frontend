@@ -64,13 +64,13 @@ function Navbar() {
 
   return (
     <nav
-      className={`navbar z-40 py-10 px-10 lg:px-20 fixed top-0 rounded-b-3xl ${
+      className={`navbar z-40 py-10 px-5 lg:px-20 fixed top-0 rounded-b-3xl ${
         path == "/"
           ? "text-white border-0"
           : "text-slate-600 border-b-1 bg-gradient-to-b from-slate-400 to-slate-100"
       } flex justify-between ${
         bgNav
-          ? "bg-amber-300 bg-opacity-90 transition ease-in-out duration-500"
+          ? "bg-amber-300 bg-opacity-90 transition ease-in-out duration-500 shadow-lg"
           : "bg-tranparent"
       }`}
     >
@@ -116,7 +116,9 @@ function Navbar() {
               <div className="flex">
                 <Link
                   to="/wishlist"
-                  className="btn btn-ghost btn-circle mt-4 ms-2 hover:bg-rose-600 hover:text-slate-200"
+                  className={`btn btn-ghost btn-circle mt-4 ms-2 hover:bg-rose-600 hover:text-slate-200 ${
+                    path == "/wishlist" && "bg-rose-600"
+                  }`}
                 >
                   <FiHeart size={30} />
                 </Link>
@@ -124,7 +126,9 @@ function Navbar() {
                 <Link
                   to="/cart"
                   tabIndex={0}
-                  className="btn btn-ghost btn-circle mt-4 ms-2 hover:bg-green-500 hover:text-slate-200"
+                  className={`btn btn-ghost btn-circle mt-4 ms-2 hover:bg-green-500 hover:text-slate-200 ${
+                    path == "/cart" && "bg-green-500"
+                  }`}
                 >
                   <div className="indicator">
                     <FiShoppingCart size={30} />
@@ -164,7 +168,7 @@ function Navbar() {
               }`}
             >
               <li>
-                <Link
+                <NavLink
                   to="/profile"
                   className="hover:text-green-500 font-semibold"
                 >
@@ -172,7 +176,7 @@ function Navbar() {
                     <FiUserCheck />
                   </span>
                   Profile
-                </Link>
+                </NavLink>
               </li>
               <li onClick={Logout}>
                 <a className="hover:text-rose-500 font-semibold">
@@ -201,14 +205,18 @@ function Navbar() {
           <div className="hidden lg:flex space-x-4">
             <Link
               to="/wishlist"
-              className="btn btn-ghost btn-circle hover:text-slate-200 hover:bg-rose-500"
+              className={`btn btn-ghost btn-circle hover:text-slate-200 hover:bg-rose-500 ${
+                path == "/wishlist" && "bg-rose-600 text-slate-200"
+              }`}
             >
               <FiHeart size={30} />
             </Link>
             <Link
               to="/cart"
               tabIndex={0}
-              className="btn btn-ghost btn-circle hover:text-slate-200 hover:bg-green-500"
+              className={`btn btn-ghost btn-circle hover:text-slate-200 hover:bg-green-500 ${
+                path == "/cart" && "bg-green-600 text-slate-200"
+              }`}
             >
               <div className="indicator">
                 <FiShoppingCart size={30} />

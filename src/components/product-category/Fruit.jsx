@@ -36,8 +36,8 @@ function Fruit() {
                     className="w-full h-[400px] object-cover rounded-3xl drop-shadow-md"
                   />
                   <br />
-                  <p className="text-lg font-semibold">{item?.title}</p>
-                  <p>${item?.price}</p>
+                  <p className="text-lg font-semibold first-letter:uppercase">{item?.title}</p>
+                  <p>{item?.price} ฿</p>
                 </Link>
               </div>
             );

@@ -3,8 +3,7 @@ import { Link } from "react-router-dom";
 //Functions
 import { listCategory } from "../functions/category";
 import { listProduct } from "../functions/product";
-import { FiBookOpen } from "react-icons/fi";
-import { BsFillBalloonHeartFill } from "react-icons/bs";
+//Components
 import { CiLemon } from "react-icons/ci";
 
 function Shop() {
@@ -107,8 +106,8 @@ function Shop() {
                   }}
                 />
                 <div className="text-center mt-5 text-slate-600">
-                  <h3 className="text-3xl">{item?.title}</h3>
-                  <p className="mt-3 text-lg">${item?.price}</p>
+                  <h3 className="text-3xl first-letter:uppercase">{item?.title}</h3>
+                  <p className="mt-3 text-lg">{item?.price} ฿</p>
                 </div>
               </Link>
             ))

@@ -49,9 +49,9 @@ function ManageBlog() {
 
   return (
     <div className="w-full container mx-auto py-20 px-5">
-      <h3 className="text-4xl text-center font-bold text-gray-500 underline underline-offset-4">
+      <h1 className="text-center font-bold uppercase underline underline-offset-4 decoration-emerald-500">
         Manage blog
-      </h3>
+      </h1>
 
       {/* For Loading */}
       {loading && (
@@ -61,7 +61,7 @@ function ManageBlog() {
       {/* For button Add */}
       <div className="flex space-x-3 my-20">
         <Link to={`/admin/blog/create`}>
-          <button className="btn btn-primary">Add blog</button>
+          <button className="btn btn-success">Add blog</button>
         </Link>
         <button onClick={refreshPage} className="btn btn-warning">
           <MdAutorenew size={28} />
@@ -70,8 +70,8 @@ function ManageBlog() {
 
       {/* Table */}
       <div className="overflow-x-auto my-10 h-96">
-        <table className="table table-pin-row bg-gradient-to-r from-slate-200 to-gray-300">
-          <thead>
+        <table className="table table-pin-row bg-gradient-to-b from-emerald-100 to-gray-200">
+          <thead className="bg-emerald-200">
             <tr>
               <th>Number</th>
               <th>Image</th>

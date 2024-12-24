@@ -105,10 +105,10 @@ function wishlist() {
             <BsFillBalloonHeartFill size={30} className="mr-2 -rotate-12" /> My{" "}
             <span className="text-rose-500 ms-2 tracking-wider">Wishlist</span>
           </h1>
-          <div className="w-[80px] mt-5 border-b-4 border-rose-400"></div>
+          <div className="w-[80px] mt-5 border-b-4 border-rose-400 rounded-xl"></div>
         </div>
 
-        {data ? (
+        {data.length != 0 ? (
           data.map((item) => {
             return (
               <div
@@ -126,10 +126,10 @@ function wishlist() {
                 </div>
                 <Link
                   to={`/shop/${item?.productId}`}
-                  className="flex flex-col space-y-3 w-64 text-lg"
+                  className="flex flex-col space-y-3 w-64 font-semibold text-slate-600"
                 >
-                  <p>{item?.product?.title}</p>
-                  <p>${item?.product?.price}</p>
+                  <p className="first-letter:uppercase">{item?.product?.title}</p>
+                  <p>{item?.product?.price} ฿</p>
                 </Link>
                 <div className="space-x-5">
                   <button

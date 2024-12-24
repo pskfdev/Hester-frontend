@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, NavLink } from "react-router-dom";
 import { MdDensityMedium } from "react-icons/md";
-import { FiChevronDown } from "react-icons/fi";
+import { FiChevronDown, FiLogOut } from "react-icons/fi";
+/* Redux */
 import { useSelector, useDispatch } from "react-redux";
 import { signin, logout } from "../../../store/userSlice";
 import { clearProductId } from "../../../store/wishlistSlice";
+/* Functions */
 import { currentUser } from "../../../functions/auth";
 
 function NavbarAdmin() {
@@ -80,10 +82,15 @@ function NavbarAdmin() {
               className="menu dropdown-content z-[1] shadow bg-emerald-600 rounded-box w-28"
             >
               <li
-                className="cursor-pointer text-lg text-center text-white"
+                /* className="cursor-pointer text-lg text-center text-white" */
                 onClick={Logout}
               >
-                Logout
+                <a className="text-white hover:text-rose-500 font-semibold">
+                  <span>
+                    <FiLogOut />
+                  </span>{" "}
+                  Logout
+                </a>
               </li>
             </ul>
           </div>

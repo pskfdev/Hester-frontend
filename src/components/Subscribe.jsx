@@ -17,13 +17,13 @@ function Subscribe() {
 
       <div className="mt-36 flex justify-center px-10 gap-x-4 md:gap-x-8">
         <div>
-          <img src={cucumber} alt="cucumber" />
+          <img src={cucumber} alt="cucumber" className="rounded-md" />
         </div>
         <div>
-          <img src={bitter} alt="bitter" />
+          <img src={bitter} alt="bitter" className="rounded-md" />
         </div>
         <div>
-          <img src={Brussels} alt="Brussels" />
+          <img src={Brussels} alt="Brussels" className="rounded-md" />
         </div>
       </div>
     </div>
