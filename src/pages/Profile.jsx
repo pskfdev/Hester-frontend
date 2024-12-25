@@ -9,6 +9,7 @@ import { logout, signin } from "../store/userSlice";
 import { clearProductId } from "../store/wishlistSlice";
 //Functions
 import { changePassword, updateName } from "../functions/user";
+import InputPassword from "../components/input/InputPassword";
 
 function Profile() {
   const [value, setValue] = useState({
@@ -150,26 +151,18 @@ function Profile() {
           {/* Form Change password */}
           {changePass && (
             <div className="space-y-5 flex flex-col">
-              <div className="flex items-center space-x-2 justify-center">
-                <h4 className="text-rose-400 uppercase">New password:</h4>
-                <input
-                  type="text"
-                  name="newPassword"
-                  placeholder="New password"
-                  className="input input-bordered input-sm w-[150px] max-w-xs"
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="flex items-center space-x-2 justify-center">
-                <h4 className="text-rose-400 uppercase">Confirm password:</h4>
-                <input
-                  type="text"
-                  name="cNewPassword"
-                  placeholder="Confirm password"
-                  className="input input-bordered input-sm w-[150px] max-w-xs"
-                  onChange={handleChange}
-                />
-              </div>
+              <InputPassword
+                handleChange={handleChange}
+                title="New password:"
+                name="newPassword"
+                placeholder="New password"
+              />
+              <InputPassword
+                handleChange={handleChange}
+                title="Confirm password:"
+                name="cNewPassword"
+                placeholder="Confirm password"
+              />
             </div>
           )}
 
