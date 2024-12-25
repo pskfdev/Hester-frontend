@@ -15,6 +15,7 @@ function ProductDetail() {
   let { id } = useParams();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [btnLoading, setBtnLoading] = useState(false);
   const idtoken = localStorage.token;
   /* Redux */
   const dispatch = useDispatch();
@@ -34,6 +35,7 @@ function ProductDetail() {
   };
 
   const addCarts = () => {
+    setBtnLoading(true)
     /* ถ้ายังไม่มีข้อมูลใน cart หรือ ใน cart ยังไม่มี productId นี้ */
     if (
       cart.length == 0 ||
@@ -42,9 +44,12 @@ function ProductDetail() {
       createCart(idtoken, { productId: id, quantity: count, price: data.price })
         .then((res) => {
           dispatch(addCart(res.data));
+          setBtnLoading(false)
         })
         .catch((err) => {
           console.log("Create cart fail!" + err);
+          alert("Create cart fail!");
+          setBtnLoading(false)
         });
 
       return;
@@ -72,12 +77,15 @@ function ProductDetail() {
 
           /* Update ข้อมูลใหม่ที่แก้ไขแล้ว */
           dispatch(addCart(res.data));
+          setBtnLoading(false)
         } else {
           dispatch(updateCart([res.data]));
+          setBtnLoading(false)
         }
       })
       .catch((err) => {
         console.log("Update cart fail!" + err);
+        setBtnLoading(false)
       });
   };
 
@@ -152,7 +160,7 @@ function ProductDetail() {
               onClick={addCarts}
               disabled={idtoken ? false : true}
             >
-              <p>Add To Cart</p>
+              {btnLoading ? <span className="loading " /> : <p>Add To Cart</p>}
             </button>
           </div>
 

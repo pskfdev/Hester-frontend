@@ -7,13 +7,13 @@ import { BsFillBalloonHeartFill } from "react-icons/bs";
 import { useSelector, useDispatch } from "react-redux";
 import { removeWistlist } from "../store/wishlistSlice";
 import { addCart, updateCart } from "../store/cartSlice";
+//Functions
 import { createCart, editCart } from "../functions/cart";
 
 
 function wishlist() {
   const [data, setData] = useState([]);
-  const [disable, setDisable] = useState(false);
-  const [count, setCount] = useState(1);
+  const [loading, setLoading] = useState(false);
   const idtoken = localStorage.token;
 
   const dispatch = useDispatch();
@@ -31,19 +31,24 @@ function wishlist() {
   };
 
   const deleteWishlist = (id) => {
+    setLoading(true);
+
     deleteWishlists(idtoken, id)
       .then((res) => {
         const result = wishlist.filter((item) => item.id != res.data.id);
         dispatch(removeWistlist(result));
 
         fetchData();
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
+        setLoading(false);
       });
   };
 
   const addCarts = (productId, price) => {
+    setLoading(true)
     /* ถ้ายังไม่มีข้อมูลใน cart หรือ ใน cart ยังไม่มี productId นี้ */
     if (
       cart.length == 0 ||
@@ -52,9 +57,11 @@ function wishlist() {
       createCart(idtoken, { productId: productId, quantity: 1, price: price })
         .then((res) => {
           dispatch(addCart(res.data));
+          setLoading(false)
         })
         .catch((err) => {
           console.log("Create cart fail!" + err);
+          setLoading(false)
         });
 
       return;
@@ -82,12 +89,15 @@ function wishlist() {
 
           /* Update ข้อมูลใหม่ที่แก้ไขแล้ว */
           dispatch(addCart(res.data));
+          setLoading(false)
         } else {
           dispatch(updateCart([res.data]));
+          setLoading(false)
         }
       })
       .catch((err) => {
         console.log("Update cart fail!" + err);
+        setLoading(false)
       });
   };
 
@@ -134,18 +144,19 @@ function wishlist() {
                 <div className="space-x-5">
                   <button
                     className="btn btn-outline btn-success z-10"
-                    disabled={disable}
+                    disabled={loading}
                     onClick={() =>
                       addCarts(item?.productId, item?.product?.price)
                     }
                   >
-                    {disable ? (
+                    {loading ? (
                       <span className="loading " />
                     ) : (
                       <p>Add To Cart</p>
                     )}
                   </button>
                   <button
+                    disabled={loading}
                     onClick={() => deleteWishlist(item?.id)}
                     className="btn btn-outline btn-error z-10"
                   >

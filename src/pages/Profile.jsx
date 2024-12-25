@@ -17,6 +17,7 @@ function Profile() {
     newPassword: "",
     cNewPassword: "",
   });
+  const [loading, setLoading] = useState(false);
   const [changeName, setChangeName] = useState(false);
   const [changePass, setChangePass] = useState(false);
   const token = localStorage.token;
@@ -44,6 +45,7 @@ function Profile() {
   };
 
   const handleSubmit = () => {
+    setLoading(true);
     /* ถ้า changeName = true ให้ทำ UpdatName */
     /* ถ้าไม่ใช่ ให้ทำ ChangePassword */
     if (changeName) {
@@ -51,20 +53,24 @@ function Profile() {
         .then((res) => {
           dispatch(signin(res.data));
           alert("Update name success!");
+          setLoading(false);
           setChangeName(false);
         })
         .catch((err) => {
           console.log("Update name fail!", err);
           alert("Update name fail!");
+          setLoading(false);
         });
     } else {
       if (value.newPassword !== value.cNewPassword) {
         alert("Password not match!");
+        setLoading(false);
         return;
       }
 
       changePassword(token, id, value.newPassword)
         .then((res) => {
+          setLoading(false);
           alert("Change password success!");
           alert("Please log in again.");
           handleLogout();
@@ -72,6 +78,7 @@ function Profile() {
         .catch((err) => {
           console.log("Change password fail!", err);
           alert("Change password fail!");
+          setLoading(false);
         });
     }
   };
@@ -179,7 +186,7 @@ function Profile() {
                 className="btn btn-accent btn-sm tracking-wider text-white"
                 onClick={handleSubmit}
               >
-                Submit
+                {loading ? <span className="loading " /> : <p>Submit</p>}
               </button>
             </div>
           )}
