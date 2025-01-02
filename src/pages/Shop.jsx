@@ -96,7 +96,7 @@ function Shop() {
             filter.map((item, idx) => (
               <Link to={`/shop/${item.id}`} key={item.id}>
                 <img
-                  src={`${import.meta.env.VITE_APP_IMAGE}/${item?.image}`}
+                  src={`${import.meta.env.VITE_APP_IMAGE}${item?.image}`}
                   alt={item?.title}
                   style={{
                     width: "100%",

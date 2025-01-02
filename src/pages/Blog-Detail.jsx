@@ -47,7 +47,7 @@ function BlogDetail() {
           {/* Image */}
           <div className="w-full">
             <img
-              src={`${import.meta.env.VITE_APP_IMAGE}/${data?.image}`}
+              src={`${import.meta.env.VITE_APP_IMAGE}${data?.image}`}
               alt={data?.name}
               className="w-full rounded-md lg:h-[800px] object-cover drop-shadow-2xl"
             />
